@@ -1,0 +1,24 @@
+  <div class="example-container" [class.example-is-mobile]="isMobile()">
+    <mat-toolbar class="example-toolbar toolbar-color">
+      <button matIconButton (click)="snav.toggle()"><mat-icon class="text-white">menu</mat-icon></button>
+       <img src="/images/focusfly.png" alt="logo" class="h-12">
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container"
+                          [style.marginTop.px]="isMobile() ? 56 : 0">
+      <mat-sidenav class="background-dark rounded-sm" #snav [mode]="isMobile() ? 'over' : 'side'"
+                  [fixedInViewport]="isMobile()" fixedTopGap="56">
+        <mat-nav-list>
+            @for (nav of fillerNav; track nav) {
+              <a class="text-white block py-2 px-4 cursor-pointer hover:bg-violet-500 hover:text-indigo-950">
+                {{nav}}
+              </a>
+            }
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content class="py-8 px-12 h-full">
+        {{fillerContent}}
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
