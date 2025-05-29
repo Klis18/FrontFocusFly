@@ -1,15 +1,20 @@
 import {MediaMatcher} from '@angular/cdk/layout';
 
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { MenuService } from '../../services/menu.service';
+import { Menu } from '../../interfaces/menu.interface';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
   imports: [
+    RouterOutlet,
+
     MatListModule,
     MatSidenavModule,
     MatIconModule,
@@ -48,23 +53,26 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     }
   `
 })
-export class LayoutComponent implements OnDestroy{
-  protected readonly fillerNav = ['Panel de Control','Tareas', 'Eventos'];
+export class LayoutComponent implements OnInit,OnDestroy{
 
-  protected readonly fillerContent = 'Hola, Bienvenido !!! XD';
+
+  public menu: Menu[] = [];
 
   protected readonly isMobile = signal(true);
 
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
-  constructor() {
+  constructor(private menuService: MenuService) {
     const media = inject(MediaMatcher);
 
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+  }
+  ngOnInit(): void {
+    this.menu = this.menuService.getMenuItems();
   }
 
   ngOnDestroy(): void {
