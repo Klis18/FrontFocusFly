@@ -10,17 +10,17 @@ export class MenuService {
     {
       icon: 'dashboard',
       option: 'Panel de Control',
-      route: ''
+      route: 'dashboard'
     },
     {
       icon: 'list',
       option: 'Tareas',
-      route: ''
+      route: 'tareas'
     },
     {
       icon: 'event',
       option: 'Eventos',
-      route: ''
+      route: 'eventos'
     }
   ]
 

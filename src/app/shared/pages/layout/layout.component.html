@@ -10,7 +10,8 @@
                   [fixedInViewport]="isMobile()" fixedTopGap="56">
         <mat-nav-list>
             @for (menuItem of menu; track menuItem.option) {
-              <a class="text-white block py-3 px-4 cursor-pointer hover:bg-violet-400 hover:text-indigo-950 flex items-center">
+              <a class="text-white block py-3 px-4 cursor-pointer hover:bg-violet-400 hover:text-indigo-950 flex items-center"
+                  routerLink="{{menuItem.route}}" routerLinkActive="bg-violet-400 text-white">
                 <mat-icon class="mr-4">
                   {{menuItem.icon}}
                 </mat-icon>

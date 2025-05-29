@@ -8,13 +8,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../interfaces/menu.interface';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
   imports: [
     RouterOutlet,
-
+    RouterLink,
+    RouterLinkActive,
+    
     MatListModule,
     MatSidenavModule,
     MatIconModule,
