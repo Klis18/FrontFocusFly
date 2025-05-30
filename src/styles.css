@@ -3,15 +3,23 @@
 @tailwind utilities;
 
 .toolbar-color{
-    background: linear-gradient(to right, #020202, #3c2a70) !important;
+    background: linear-gradient(to right, #020202, #7779af) !important;
     height: auto;
     width: 100%;
     padding: 0%;
     margin: 0%
 }
 
+ .background-gradient-cyan{
+      background: linear-gradient(to right, #72b1c8, #61639b)
+  }
+
 img{
     height: 5rem;
+}
+
+button:hover{
+  background: #61639b;
 }
 
 .poppins-thin {

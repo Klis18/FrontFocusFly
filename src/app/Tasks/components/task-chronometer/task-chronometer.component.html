@@ -1,0 +1,25 @@
+<div class="mt-2 pt-4 grid place-items-center background-gradient-cyan rounded-lg">
+    <div
+        class="radial-progress text-white"
+        style="--value:90; --size:12rem; --thickness: 5px;"
+        role="progressbar">
+        <p class="grid place-items-center">
+            <span class="text-4xl">{{chronometer}}</span>
+            <span class="text-xs">horas minutos segundos</span>
+        </p>
+    </div>
+    <div class="mt-6 mb-4 flex items-center">
+        <button class="px-4 py-2 bg-slate-200 rounded-2xl mr-2 flex items-center hover:bg-black hover:text-white">
+            <mat-icon>
+                pause
+            </mat-icon>
+            Pausar
+        </button>
+        <button class="px-4 py-2 bg-slate-200 rounded-2xl flex items-center hover:bg-black hover:text-white">
+            <mat-icon>
+                restart_alt
+            </mat-icon>
+            Reiniciar
+        </button>
+    </div>
+</div>

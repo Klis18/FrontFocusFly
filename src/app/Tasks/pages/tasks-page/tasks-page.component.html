@@ -1,5 +1,14 @@
 <h1 class="text-3xl">Tareas</h1>
-<hr>
+<hr/>
+<tasks-task-chronometer></tasks-task-chronometer>
+<div class="my-2">
+    <button class="rounded-lg w-full py-4 flex items-center justify-center bg-slate-800 text-white shadow-xl">
+        <mat-icon>
+            add
+        </mat-icon>
+        Agregar Tarea
+    </button>
+</div>
 <div class="mt-4">
     @for(task of taskList(); track task.id){
         <tasks-task-item [taskItem]="task"></tasks-task-item>
