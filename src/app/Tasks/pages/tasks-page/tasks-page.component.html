@@ -1,1 +1,8 @@
-<p>tasks-page works!</p>
+<h1 class="text-3xl">Tareas</h1>
+<hr>
+<div class="mt-4">
+    @for(task of taskList(); track task.id){
+        <tasks-task-item [taskItem]="task"></tasks-task-item>
+    }
+</div>
+

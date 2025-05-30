@@ -1,0 +1,29 @@
+<div class="rounded-lg px-2 py-4 shadow-md mb-2 flex items-center flex-grow">
+    <input type="radio" name="radio-2" [value]="taskItem()?.id" [(ngModel)]="state" class="size-5 mr-2 radio checked:bg-violet-300">
+    <button class="rounded-full bg-black text-white size-5 flex items-center mr-2">
+        <mat-icon class="text-base">
+            play_arrow
+        </mat-icon>
+    </button>
+    <span class="mr-2">{{taskItem()?.descripcion}}</span>
+    <mat-icon class="text-violet-700 mx-2 cursor-pointer">
+        edit
+    </mat-icon>
+    <mat-icon class="text-red-700 mx-2 cursor-pointer">
+        delete
+    </mat-icon>
+    <div class="grow"></div>
+    <div>
+        <span   class="mr-2 px-2 py-1 rounded-xl text-white" 
+                [ngClass]="{'bg-gray-500': taskItem()?.estado == 'Pendiente',
+                            'bg-yellow-500': taskItem()?.estado == 'En Proceso',
+                            'bg-lime-500': taskItem()?.estado == 'Finalizado'}">
+            {{taskItem()?.estado}}
+        </span>
+        <span class="mr-2 bg-violet-200 px-2 py-1">{{taskItem()?.nombreProyecto}}</span>
+        <span class="mr-2 bg-gray-200 px-2 py-1">F.P.: {{taskItem()?.programadoPara | date:'mediumDate'}}</span>
+        <span class="mr-2 bg-red-200 px-2 py-1">F.M.E.: {{taskItem()?.plazoEntrega| date:'mediumDate'}}</span>
+        <span class="mr-2 bg-cyan-200 px-2 py-1">T.E.: {{taskItem()?.tiempoEstimado}}</span>
+        <span class="mr-2 bg-green-200 px-2 py-1">T.R.: {{taskItem()?.tiempoReal}}</span>
+    </div>
+</div>
