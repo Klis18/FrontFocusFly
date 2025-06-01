@@ -13,6 +13,8 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { DialogRef } from '@angular/cdk/dialog';
 
 
 
@@ -38,7 +40,8 @@ export class NewTaskFormComponent implements OnInit{
 
   constructor(private fb: FormBuilder, 
               private tasksService: TasksService, 
-              private projectsService: ProjectsService
+              private projectsService: ProjectsService,
+              private dialogRef: MatDialogRef<NewTaskFormComponent>
             ){
                 this.projectsList = this.projectsService.getProjects();
               }
@@ -68,20 +71,24 @@ export class NewTaskFormComponent implements OnInit{
 
   onSubmit(){
     const {programadoPara, plazoEntrega} = this.taskForm.value;
+    const newTask = {
+      ...this.taskForm.value,
+      programadoPara: this.formatDateOnly(programadoPara),
+      plazoEntrega: this.formatDateOnly(plazoEntrega)
+    }
 
-      const newTask = {
-        ...this.taskForm.value,
-        programadoPara: this.formatDateOnly(programadoPara),
-        plazoEntrega: this.formatDateOnly(plazoEntrega)
-      }
-
-      this.tasksService.createTask(newTask).subscribe(
-        {
-          next: (res) => this.sendOkMessage()
+    this.tasksService.createTask(newTask).subscribe(
+      {
+        next: (res) => {
+          this.sendOkMessage(),
+          this.closeModal();
         }
-      );
-    
-   
+      }
+    );
+  }
+
+  closeModal(){
+    this.dialogRef.close();
   }
 
   sendOkMessage(){

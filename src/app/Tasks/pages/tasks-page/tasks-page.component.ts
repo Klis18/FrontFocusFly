@@ -25,6 +25,7 @@ export default class TasksPageComponent{
 
   public taskList: Signal<Task[]>
 
+
   constructor(private tasksService: TasksService, private dialog:MatDialog){
     this.taskList = this.tasksService.getTasks();
   }

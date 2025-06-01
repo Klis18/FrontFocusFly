@@ -1,18 +1,23 @@
-<div class="py-8 px-6">
-    <h1 class="text-2xl">Nueva Tarea</h1>
+<div class="py-4 px-6">
+    <div class="relative">
+        <div class="absolute right-0 text-gray-500">
+            <mat-icon class="cursor-pointer" (click)="closeModal()">
+                close
+            </mat-icon>
+        </div>
+    </div>
+    <h1 class="text-2xl mt-4">Nueva Tarea</h1>
     <hr/>
-    <div class="py-4">
+    <div class="py-8">
         <form action="" [formGroup]="taskForm">
             <div class="grid grid-cols-6 gap-4">
                 <div class="col-span-6 md:col-span-4 lg:col-span-4 xl:col-span-4">
-                    <div class="example-full-width">
-                        <label for="" class="block">Tarea</label>
+                        <label for="tarea" class="block mb-1">Tarea</label>
                         <input type="email" matInput formControlName="descripcion" placeholder="Escribe aquí tu tarea..." class="w-full border rounded-md px-2 py-1">
-                    </div>
                 </div>
 
                 <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
-                    <label for="proyecto" class="block">Proyecto</label>
+                    <label for="proyecto" class="block mb-1">Proyecto</label>
                     <mat-select formControlName="proyectoId" name="proyectoId" class="border rounded-md w-full px-2 py-1 bg-white">
                         @for (proyecto of projectsList(); track proyecto.id) {
                             <mat-option [value]="proyecto.id">{{proyecto.nombreProyecto}}</mat-option>
@@ -21,7 +26,7 @@
                 </div>
 
                 <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
-                    <label for="time" class="block">Tiempo estimado:</label>
+                    <label for="tiempoEstimado" class="block mb-1">Tiempo estimado:</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                             <mat-icon>
@@ -34,7 +39,7 @@
                 </div>
 
                 <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
-                    <label for="">Fecha programada</label>
+                    <label for="programadoPara" class="block mb-1">Fecha programada</label>
                     <div class="relative">
                         <input matInput [matDatepicker]="picker" formControlName="programadoPara" class="border rounded-md p-2 w-full">
                         <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-0.5 pointer-events-none">
@@ -48,7 +53,7 @@
                 </div>
 
                 <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
-                    <label for="">Fecha máxima entrega</label>
+                    <label for="plazoEntrega" class="block mb-1">Fecha máxima entrega</label>
                     <div class="relative">
                         <input matInput [matDatepicker]="pickerMax" formControlName="plazoEntrega" class="border rounded-md p-2 w-full">
                         <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-0.5 pointer-events-none">
@@ -63,21 +68,21 @@
 
             </div>
         </form>
-        <div class="mt-4 mb-6 relative">
+        <div class="mt-8 mb-10 relative">
             <div class="absolute right-0 flex items-center">
-                <button type="submit" class="rounded-lg mr-2 p-2 bg-slate-900 text-white flex items-center" (click)="onSubmit()">
+                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-red-400 text-white flex items-center" (click)="closeModal()">
+                    <mat-icon class="mr-2">
+                        cancel
+                    </mat-icon>
+                    Cancelar
+                </button>
+                <button type="submit" class="rounded-lg p-2 bg-slate-900 text-white flex items-center" (click)="onSubmit()">
                     <mat-icon class="mr-2">
                         save
                     </mat-icon>
                     Guardar
                 </button>
     
-                <button type="reset" class="rounded-lg p-2 bg-slate-400 hover:bg-red-400 text-white flex items-center">
-                    <mat-icon class="mr-2">
-                        cancel
-                    </mat-icon>
-                    Cancelar
-                </button>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
         <mat-icon class="text-violet-700 mx-2 cursor-pointer">
             edit
         </mat-icon>
-        <mat-icon class="text-red-700 mx-2 cursor-pointer">
+        <mat-icon class="text-red-700 mx-2 cursor-pointer" (click)="deleteTask(taskItem()!.id)">
             delete
         </mat-icon>
     </div>
