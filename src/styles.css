@@ -3,14 +3,25 @@
 @tailwind utilities;
 
 .toolbar-color{
-    background: linear-gradient(to right, #020202, #7779af) !important;
+    background: linear-gradient(to right, #0b2964, #16849c) !important;
     height: auto;
     width: 100%;
     padding: 0%;
     margin: 0%
 }
 
+.toolbar-color2{
+    background: linear-gradient(to right, #020202, #7779af) !important;
+    height: auto;
+    width: 100%;
+    padding: 0%;
+    margin: 0%
+}
  .background-gradient-cyan{
+      background: radial-gradient(#16849c, #0b2964);
+  }
+
+   .background-gradient-cyan2{
       background: linear-gradient(to right, #72b1c8, #61639b)
   }
 
@@ -19,7 +30,15 @@ img{
 }
 
 button:hover{
-  background: #61639b;
+  background: #16849c;
+}
+
+.example-full-width{
+  width: 100% !important;
+}
+
+.colored-toast.swal2-icon-success {
+  background-color: #79d345 !important;
 }
 
 .poppins-thin {
@@ -34,13 +53,13 @@ button:hover{
   font-style: normal;
 }
 
-.poppins-light {
+.poppins-light, input {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-style: normal;
 }
 
-.poppins-regular, p, span {
+.poppins-regular, p, span, label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
