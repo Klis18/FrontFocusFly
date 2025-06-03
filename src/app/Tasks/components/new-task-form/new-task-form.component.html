@@ -70,7 +70,15 @@
         </form>
         <div class="mt-8 mb-10 relative">
             <div class="absolute right-0 flex items-center">
-                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-red-400 text-white flex items-center" (click)="closeModal()">
+                @if(isShowDelete){
+                    <button type="reset" class="rounded-lg mr-2 p-2 bg-red-500 hover:bg-red-400 text-white flex items-center" (click)="deleteTask()">
+                        <mat-icon class="mr-2">
+                            delete
+                        </mat-icon>
+                        Eliminar
+                    </button>
+                }
+                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-gray-500 text-white flex items-center" (click)="closeModal()">
                     <mat-icon class="mr-2">
                         cancel
                     </mat-icon>

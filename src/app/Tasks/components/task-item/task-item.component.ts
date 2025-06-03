@@ -24,11 +24,8 @@ export class TaskItemComponent {
   taskItem = input<Task>();
   state:string =  '';
 
-  constructor(private tasksServices: TasksService, private dialog:MatDialog){}
+  constructor(private dialog:MatDialog){}
 
-  deleteTask(id:number){
-    this.tasksServices.deleteTask(id).subscribe();
-  }
 
   openModalConfiguration(id:number){
     this.dialog.open(NewTaskFormComponent,

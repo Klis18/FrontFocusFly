@@ -21,6 +21,10 @@ export class TasksService {
     return toSignal(listaTareas, {initialValue:[]})
   }
 
+  getTask(id:number):Observable<Task>{
+    return this.http.get<Task>(`${this.apiUrl}/tareas/${id}`);
+  }
+
   createTask(task: CreateTask):Observable<CreateTask>{
     console.log('Datos recibidos', task)
     return this.http.post<CreateTask>(`${this.apiUrl}/tareas`,task);

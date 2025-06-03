@@ -15,6 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
+import { Task } from '../../interfaces/task.interface';
 
 
 
@@ -41,14 +42,16 @@ export class NewTaskFormComponent implements OnInit{
   public data = inject(MAT_DIALOG_DATA);
 
   public title!: string;
+  public isShowDelete!: boolean;
+  public task!: Task;
 
   constructor(private fb: FormBuilder, 
-              private tasksService: TasksService, 
-              private projectsService: ProjectsService,
+              private tasksServices: TasksService, 
+              private projectsServices: ProjectsService,
               private dialogRef: MatDialogRef<NewTaskFormComponent>,
               private alertService: AlertsService
             ){
-                this.projectsList = this.projectsService.getProjects();
+                this.projectsList = this.projectsServices.getProjects();
               }
 
   ngOnInit(): void {
@@ -60,8 +63,17 @@ export class NewTaskFormComponent implements OnInit{
       programadoPara: [this.dateToday],
       plazoEntrega: [this.dateToday]
     });
-    console.log('ID RECIBIDO', this.data.idTask);
     this.title = this.data.title;
+    this.isShowDelete = (this.title == 'Configuración de Tarea')? true : false;
+
+    this.tasksServices.getTask(this.data.idTask).subscribe(
+      (res) =>{
+        this.data = res
+        console.log('datos recibidos',this.data);
+        // this.taskForm.setValue(this.task);
+      }
+    );
+
   }
 
   onSubmit(){
@@ -71,7 +83,7 @@ export class NewTaskFormComponent implements OnInit{
       programadoPara: this.formatDateOnly(programadoPara),
       plazoEntrega: this.formatDateOnly(plazoEntrega)
     }
-    this.tasksService.createTask(newTask).subscribe(
+    this.tasksServices.createTask(newTask).subscribe(
       {
         next: (res) => {
           this.alertService.sendOkMessage();
@@ -79,6 +91,12 @@ export class NewTaskFormComponent implements OnInit{
         }
       }
     );
+  }
+
+  deleteTask(){
+    const id = this.data.idTask;
+    this.tasksServices.deleteTask(id).subscribe();
+    this.closeModal();
   }
 
   closeModal(){
