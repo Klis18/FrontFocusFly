@@ -23,7 +23,8 @@ import { NewTaskFormComponent } from '../../components/new-task-form/new-task-fo
 })
 export default class TasksPageComponent{
 
-  public taskList: Signal<Task[]>
+  public taskList: Signal<Task[]>;
+  public isChronometerActive: boolean = false;
 
 
   constructor(private tasksService: TasksService, private dialog:MatDialog){
@@ -31,17 +32,16 @@ export default class TasksPageComponent{
   }
 
   openDialog(){
-    const dialogRef = this.dialog.open(NewTaskFormComponent,
+    this.dialog.open(NewTaskFormComponent,
       {
+        data:{
+          title: 'Nueva Tarea',
+        },
         width: '90%',    
         maxWidth: '700px', 
         maxHeight: '800px'
       }
     );
-
-    dialogRef.afterClosed().subscribe(res =>{
-      console.log('Modal cerrado', res);
-    })
   }
 
 }

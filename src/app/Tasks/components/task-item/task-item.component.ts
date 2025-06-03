@@ -4,12 +4,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TasksService } from '../../services/tasks.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NewTaskFormComponent } from '../new-task-form/new-task-form.component';
 
 @Component({
   selector: 'tasks-task-item',
   imports: [
     CommonModule,
     FormsModule,
+    MatDialogModule,
 
     MatIconModule
   ],
@@ -21,10 +24,24 @@ export class TaskItemComponent {
   taskItem = input<Task>();
   state:string =  '';
 
-  constructor(private tasksServices: TasksService){}
+  constructor(private tasksServices: TasksService, private dialog:MatDialog){}
 
   deleteTask(id:number){
     this.tasksServices.deleteTask(id).subscribe();
+  }
+
+  openModalConfiguration(id:number){
+    this.dialog.open(NewTaskFormComponent,
+      {
+        data:{
+          idTask: id,
+          title: 'Configuración de Tarea'
+        },
+        width: '90%',    
+        maxWidth: '700px', 
+        maxHeight: '800px'
+      }
+    );
   }
 
 }

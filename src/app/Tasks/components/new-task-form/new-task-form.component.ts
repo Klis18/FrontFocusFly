@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, Inject, inject, OnInit, Signal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import Swal from 'sweetalert2'
@@ -13,8 +13,8 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { DialogRef } from '@angular/cdk/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { AlertsService } from '../../../shared/services/alerts.service';
 
 
 
@@ -38,10 +38,15 @@ export class NewTaskFormComponent implements OnInit{
   public projectsList: Signal<Project[]>;
   public dateToday: Date = new Date(Date.now());
 
+  public data = inject(MAT_DIALOG_DATA);
+
+  public title!: string;
+
   constructor(private fb: FormBuilder, 
               private tasksService: TasksService, 
               private projectsService: ProjectsService,
-              private dialogRef: MatDialogRef<NewTaskFormComponent>
+              private dialogRef: MatDialogRef<NewTaskFormComponent>,
+              private alertService: AlertsService
             ){
                 this.projectsList = this.projectsService.getProjects();
               }
@@ -55,19 +60,9 @@ export class NewTaskFormComponent implements OnInit{
       programadoPara: [this.dateToday],
       plazoEntrega: [this.dateToday]
     });
+    console.log('ID RECIBIDO', this.data.idTask);
+    this.title = this.data.title;
   }
-
-  Toast = Swal.mixin({
-    toast: true,
-    position: 'center',
-    iconColor: 'white',
-    customClass: {
-                    popup: 'colored-toast',
-                  },
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-  })
 
   onSubmit(){
     const {programadoPara, plazoEntrega} = this.taskForm.value;
@@ -76,11 +71,10 @@ export class NewTaskFormComponent implements OnInit{
       programadoPara: this.formatDateOnly(programadoPara),
       plazoEntrega: this.formatDateOnly(plazoEntrega)
     }
-
     this.tasksService.createTask(newTask).subscribe(
       {
         next: (res) => {
-          this.sendOkMessage(),
+          this.alertService.sendOkMessage();
           this.closeModal();
         }
       }
@@ -89,13 +83,6 @@ export class NewTaskFormComponent implements OnInit{
 
   closeModal(){
     this.dialogRef.close();
-  }
-
-  sendOkMessage(){
-      this.Toast.fire({
-        icon: 'success',
-        title: 'Tarea creada exitosamente',
-      })
   }
 
   formatDateOnly(date: Date): string {
