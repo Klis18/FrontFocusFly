@@ -28,7 +28,6 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     .background-dark{
       background-color: black !important;
       border-radius: 0 !important;
-      width: 20%;
     }
 
     .example-container {

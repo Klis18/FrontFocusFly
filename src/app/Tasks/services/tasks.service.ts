@@ -25,6 +25,11 @@ export class TasksService {
     return this.http.get<CreateTask>(`${this.apiUrl}/tareas/${id}`);
   }
 
+  getWeekTasks(){
+    const listaTareasSemana = this.http.get<Task[]>(`${this.apiUrl}/tareas/tareasSemana`);
+    return toSignal(listaTareasSemana, {initialValue:[]})
+  }
+
   createTask(task: CreateTask):Observable<CreateTask>{
     console.log('Datos recibidos', task)
     return this.http.post<CreateTask>(`${this.apiUrl}/tareas`,task);
