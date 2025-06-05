@@ -14,6 +14,7 @@ export interface CreateTask{
     proyectoId: number,
     estadoId: number,
     tiempoEstimado: string,
+    tiempoReal: string,
     programadoPara: Date,
     plazoEntrega: Date
 }

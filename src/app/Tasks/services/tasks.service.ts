@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal, Signal } from '@angular/core';
+import { inject, Injectable} from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { CreateTask, Task } from '../interfaces/task.interface';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class TasksService {
     return toSignal(listaTareas, {initialValue:[]})
   }
 
-  getTask(id:number):Observable<Task>{
-    return this.http.get<Task>(`${this.apiUrl}/tareas/${id}`);
+  getTask(id:number):Observable<CreateTask>{
+    return this.http.get<CreateTask>(`${this.apiUrl}/tareas/${id}`);
   }
 
   createTask(task: CreateTask):Observable<CreateTask>{

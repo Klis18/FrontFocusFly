@@ -1,31 +1,43 @@
-<div class="py-4 px-6">
-    <div class="relative">
-        <div class="absolute right-0 text-gray-500">
-            <mat-icon class="cursor-pointer" (click)="closeModal()">
-                close
-            </mat-icon>
+<div mat-dialog-title>
+    <div class="px-4 py-2">
+        <div class="relative">
+            <div class="absolute right-0 text-gray-500">
+                <mat-icon class="cursor-pointer" (click)="closeModal()">
+                    close
+                </mat-icon>
+            </div>
         </div>
+        <h1 class="text-2xl mt-4">{{title}}</h1>
+        <hr/>
     </div>
-    <h1 class="text-2xl mt-4">{{title}}</h1>
-    <hr/>
-    <div class="py-8">
-        <form action="" [formGroup]="taskForm">
+</div>
+<mat-dialog-content>
+    <div class="pb-8">
+
+        <form [formGroup]="taskForm">
             <div class="grid grid-cols-6 gap-4">
-                <div class="col-span-6 md:col-span-4 lg:col-span-4 xl:col-span-4">
+                <div class="col-span-6">
                         <label for="tarea" class="block mb-1">Tarea</label>
-                        <input type="email" matInput formControlName="descripcion" placeholder="Escribe aquí tu tarea..." class="w-full border rounded-md px-2 py-1">
+                        <input type="text" matInput formControlName="descripcion" placeholder="Escribe aquí tu tarea..." class="w-full border rounded-md px-2 py-2">
                 </div>
 
-                <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
+                <div class="col-span-6 md:col-span-6 lg:col-span-4 xl:col-span-4">
                     <label for="proyecto" class="block mb-1">Proyecto</label>
-                    <mat-select formControlName="proyectoId" name="proyectoId" class="border rounded-md w-full px-2 py-1 bg-white">
-                        @for (proyecto of projectsList(); track proyecto.id) {
-                            <mat-option [value]="proyecto.id">{{proyecto.nombreProyecto}}</mat-option>
-                        }
-                    </mat-select>
+                    <div class="flex items-center">
+                        <mat-select formControlName="proyectoId" name="proyectoId" class="border rounded-md w-full px-2 py-2 bg-white">
+                            @for (proyecto of projectsList(); track proyecto.id) {
+                                <mat-option [value]="proyecto.id">{{proyecto.nombreProyecto}}</mat-option>
+                            }
+                        </mat-select>
+                        <button class="ml-2 bg-black px-2 py-1 rounded-md text-white">
+                            <mat-icon>
+                                add
+                            </mat-icon>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
+                <div class="col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2">
                     <label for="tiempoEstimado" class="block mb-1">Tiempo estimado:</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
@@ -38,7 +50,22 @@
                     <span class="text-xs">horas : minutos</span>
                 </div>
 
-                <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
+                @if(isShowRealTime){
+                    <div class="col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2">
+                        <label for="tiempoReal" class="block mb-1">Tiempo real:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                <mat-icon>
+                                    clock
+                                </mat-icon>
+                            </div>
+                            <input type="time" id="time2" formControlName="tiempoReal" class="bg-white border leading-none border-gray-300 text-gray-900 rounded-md focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2" min="00:00" max="24:00" value="00:00" readonly/>
+                        </div>
+                        <span class="text-xs">horas : minutos</span>
+                    </div>
+                }
+
+                <div class="col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2">
                     <label for="programadoPara" class="block mb-1">Fecha programada</label>
                     <div class="relative">
                         <input matInput [matDatepicker]="picker" formControlName="programadoPara" class="border rounded-md p-2 w-full">
@@ -52,7 +79,7 @@
                     <span class="text-xs">mes/dia/año</span>                    
                 </div>
 
-                <div class="col-span-6 md:col-span-2 lg:col-span-2 xl:col-span-2">
+                <div class="col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2">
                     <label for="plazoEntrega" class="block mb-1">Fecha máxima entrega</label>
                     <div class="relative">
                         <input matInput [matDatepicker]="pickerMax" formControlName="plazoEntrega" class="border rounded-md p-2 w-full">
@@ -70,16 +97,8 @@
         </form>
         <div class="mt-8 mb-10 relative">
             <div class="absolute right-0 flex items-center">
-                @if(isShowDelete){
-                    <button type="reset" class="rounded-lg mr-2 p-2 bg-red-500 hover:bg-red-400 text-white flex items-center" (click)="deleteTask()">
-                        <mat-icon class="mr-2">
-                            delete
-                        </mat-icon>
-                        Eliminar
-                    </button>
-                }
                 <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-gray-500 text-white flex items-center" (click)="closeModal()">
-                    <mat-icon class="mr-2">
+                    <mat-icon class="mr-1">
                         cancel
                     </mat-icon>
                     Cancelar
@@ -90,9 +109,7 @@
                     </mat-icon>
                     Guardar
                 </button>
-    
             </div>
         </div>
     </div>
-
-</div>
+</mat-dialog-content>

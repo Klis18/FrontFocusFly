@@ -1,7 +1,5 @@
-import { Component, Inject, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit, Signal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-
-import Swal from 'sweetalert2'
 
 import { TasksService } from '../../services/tasks.service';
 import { Project } from '../../../projects/interfaces/project.interface';
@@ -13,7 +11,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
 import { Task } from '../../interfaces/task.interface';
 
@@ -27,7 +25,8 @@ import { Task } from '../../interfaces/task.interface';
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogContent
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './new-task-form.component.html',
@@ -42,7 +41,7 @@ export class NewTaskFormComponent implements OnInit{
   public data = inject(MAT_DIALOG_DATA);
 
   public title!: string;
-  public isShowDelete!: boolean;
+  public isShowRealTime!: boolean;
   public task!: Task;
 
   constructor(private fb: FormBuilder, 
@@ -60,19 +59,18 @@ export class NewTaskFormComponent implements OnInit{
       proyectoId: [1],
       estadoId: [1],
       tiempoEstimado: ['00:00:00'],
+      tiempoReal: ['00:00:00'],
       programadoPara: [this.dateToday],
       plazoEntrega: [this.dateToday]
     });
     this.title = this.data.title;
-    this.isShowDelete = (this.title == 'Configuración de Tarea')? true : false;
 
-    this.tasksServices.getTask(this.data.idTask).subscribe(
-      (res) =>{
-        this.data = res
-        console.log('datos recibidos',this.data);
-        // this.taskForm.setValue(this.task);
-      }
-    );
+    this.isShowRealTime = (this.title == 'Configuración de Tarea') ? true : false;
+
+    if(this.title == 'Configuración de Tarea'){
+      this.getTask();
+    }
+    
 
   }
 
@@ -93,10 +91,19 @@ export class NewTaskFormComponent implements OnInit{
     );
   }
 
-  deleteTask(){
-    const id = this.data.idTask;
-    this.tasksServices.deleteTask(id).subscribe();
-    this.closeModal();
+  getTask(){
+    this.tasksServices.getTask(this.data.idTask).subscribe(
+      (res) =>{
+        const {descripcion, proyectoId, estadoId, tiempoEstimado, tiempoReal, programadoPara, plazoEntrega} = res
+        this.taskForm.get('descripcion')?.setValue(descripcion);
+        this.taskForm.get('proyectoId')?.setValue(proyectoId);
+        this.taskForm.get('estadoId')?.setValue(estadoId);
+        this.taskForm.get('tiempoEstimado')?.setValue(tiempoEstimado);
+        this.taskForm.get('tiempoReal')?.setValue(tiempoReal);
+        this.taskForm.get('programadoPara')?.setValue(this.formatDateUTC(programadoPara));
+        this.taskForm.get('plazoEntrega')?.setValue(this.formatDateUTC(plazoEntrega));
+      }
+    );
   }
 
   closeModal(){
@@ -107,6 +114,12 @@ export class NewTaskFormComponent implements OnInit{
     return date.toISOString().split('T')[0];
   }
 
+  formatDateUTC(date: Date): Date{
+    const fechaStr = date.toString();
+        const [year, month, day] = fechaStr.split("-").map(Number);
+        const fechaUTC = new Date(Date.UTC(year, month - 1 , day + 1));
+        return fechaUTC;
+  }
 
 }
 

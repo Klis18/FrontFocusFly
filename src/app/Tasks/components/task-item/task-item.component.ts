@@ -24,7 +24,7 @@ export class TaskItemComponent {
   taskItem = input<Task>();
   state:string =  '';
 
-  constructor(private dialog:MatDialog){}
+  constructor(private dialog:MatDialog, private tasksServices: TasksService){}
 
 
   openModalConfiguration(id:number){
@@ -34,11 +34,15 @@ export class TaskItemComponent {
           idTask: id,
           title: 'Configuración de Tarea'
         },
-        width: '90%',    
+        width: '90%',
         maxWidth: '700px', 
-        maxHeight: '800px'
+        maxHeight: '95%'
       }
     );
+  }
+
+    deleteTask(id: number){
+    this.tasksServices.deleteTask(id).subscribe();
   }
 
 }
