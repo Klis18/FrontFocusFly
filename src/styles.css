@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.toolbar-color{
+/* .toolbar-color{
     background: linear-gradient(to right, #0b2964, #16849c) !important;
     height: auto;
     width: 100%;
@@ -16,13 +16,33 @@
     width: 100%;
     padding: 0%;
     margin: 0%
-}
+} */
  .background-gradient-cyan{
       background: radial-gradient(#16849c, #0b2964);
   }
 
    .background-gradient-cyan2{
       background: linear-gradient(to right, #72b1c8, #61639b)
+  }
+
+  .bg-primary{
+    background-color: #1ecbe1 !important;
+  }
+
+  .bg-secondary{
+    background-color: #961EE1;
+  }
+
+  .bg-terciary{
+    background-color: #E1341E;
+  }
+
+  .bg-cuaternary{
+    background-color: #6AE11E;
+  }
+
+  .bg-neutral{
+    background-color: #6E6E6E;
   }
 
 img{
