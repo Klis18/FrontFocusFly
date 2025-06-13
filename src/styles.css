@@ -26,23 +26,43 @@
   }
 
   .bg-primary{
-    background-color: #1ecbe1 !important;
+    background-color: #1696BE !important;
   }
 
   .bg-secondary{
-    background-color: #961EE1;
+    background-color: #9216BE;
   }
 
   .bg-terciary{
-    background-color: #E1341E;
+    background-color: #BE3F16;
   }
 
   .bg-cuaternary{
-    background-color: #6AE11E;
+    background-color: #42BE16;
   }
 
   .bg-neutral{
     background-color: #6E6E6E;
+  }
+
+  .text-primary{
+    color: #1696BE;
+  }
+
+  .text-secondary{
+    color: #9216BE;
+  }
+
+  .text-terciary{
+    color: #BE3F16;
+  }
+
+  .text-cuaternary{
+    color: #42BE16;
+  }
+
+  .text-neutral{
+    color: #6E6E6E;
   }
 
 img{

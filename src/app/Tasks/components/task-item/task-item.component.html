@@ -1,36 +1,14 @@
-<div class="rounded-lg px-2 py-4 shadow-md mb-2 flex items-center flex-wrap">
-    <input type="radio" name="radio-2" [value]="taskItem()?.id" [(ngModel)]="state" class="size-5 mr-2 radio checked:bg-violet-300">
-    <button class="rounded-full bg-black text-white size-5 flex items-center mr-2">
-        <mat-icon class="text-base">
-            play_arrow
-        </mat-icon>
-    </button>
-    <span class="mr-2">{{taskItem()?.descripcion}}</span>
-    <span   class="mr-2 rounded-full size-2" 
-            [ngClass]="{'bg-gray-500': taskItem()?.estado == 'Pendiente',
-                        'bg-yellow-500': taskItem()?.estado == 'En Proceso',
-                        'bg-lime-500': taskItem()?.estado == 'Finalizado'}">
-    </span>
-    <span [ngClass]="{  'text-gray-500': taskItem()?.estado == 'Pendiente',
-                        'text-yellow-500': taskItem()?.estado == 'En Proceso',
-                        'text-lime-500': taskItem()?.estado == 'Finalizado'}"> 
-        {{taskItem()?.estado}}
-    </span>
-    <div class="grow"></div>
-    <div class="text-sm my-2 flex flex-wrap">
-        <span class="mr-2 xs:mt-2 px-2 py-1 rounded-sm text-fuchsia-700 flex items-center">
-            <mat-icon class="text-sm">
-                sell
-            </mat-icon>
-            {{taskItem()?.nombreProyecto}}
-        </span>
 
-        <span class="mr-2 xs:mt-2 px-2 py-1 rounded-sm flex items-center text-gray-400">
-            <mat-icon class=" mr-2">
-                today
+<div class="rounded-lg px-2 py-4 shadow-md mb-2 grid grid-cols-2 gap-2">
+    <div class="col-span-2 flex items-center flex-wrap">
+        <input type="radio" name="radio-2" [value]="taskItem()?.id" [(ngModel)]="state" class="size-5 mr-2 radio checked:bg-violet-300">
+        <button class="rounded-full bg-black text-white size-5 flex items-center mr-2">
+            <mat-icon class="text-base">
+                play_arrow
             </mat-icon>
-            {{taskItem()?.programadoPara | date:'d LLLL'}}
-        </span>
+        </button>
+        <span class="mr-2">{{taskItem()?.descripcion}}</span>
+        <div class="grow"></div>
         <div>
             <mat-icon class="text-red-700 mx-2 cursor-pointer" (click)="deleteTask(taskItem()!.id)">
                 delete
@@ -38,6 +16,33 @@
             <mat-icon class="text-gray-700 mx-2 cursor-pointer" (click)="openModalConfiguration(taskItem()!.id)">
                 settings
             </mat-icon>
+        </div>
+    </div>
+    <div class="col-span-2 flex items-center ml-8 text-sm">
+        <div class="mr-4 flex items-center">
+            <span   class="mr-2 rounded-full size-2" 
+                    [ngClass]="{'bg-neutral': taskItem()?.estado == 'Pendiente',
+                                'bg-secondary': taskItem()?.estado == 'En Proceso',
+                                'bg-cuaternary': taskItem()?.estado == 'Finalizado'}"> 
+            </span>
+            <span [ngClass]="{  'text-neutral': taskItem()?.estado == 'Pendiente',
+                                'text-secondary': taskItem()?.estado == 'En Proceso',
+                                'text-cuaternary': taskItem()?.estado == 'Finalizado'}"> 
+                {{taskItem()?.estado}}
+            </span>
+        </div>
+        <div class="mr-4 xs:mt-2 px-2 py-1 rounded-sm text-neutral flex items-center">
+            <mat-icon class="text-sm">
+                sell
+            </mat-icon>
+            {{taskItem()?.nombreProyecto}}
+        </div>
+    
+        <div class="mr-2 xs:mt-2 px-2 py-1 rounded-sm flex items-center text-gray-400">
+            <mat-icon class=" mr-2">
+                today
+            </mat-icon>
+            {{taskItem()?.programadoPara | date:'d LLLL'}}
         </div>
     </div>
 </div>
