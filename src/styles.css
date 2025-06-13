@@ -65,12 +65,12 @@
     color: #6E6E6E;
   }
 
+  .itemSelected, .itemSelected:hover{
+    background-color: #22B7E5;
+  }
+
 img{
     height: 5rem;
-}
-
-button:hover{
-  background: #16849c;
 }
 
 .example-full-width{

@@ -25,10 +25,12 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   ],
   templateUrl: './layout.component.html',
   styles: `
-    .background-dark{
-      background-color: black !important;
+    .sidenav-background{
       border-radius: 0 !important;
+      color: white !important;
     }
+
+    
 
     .example-container {
       display: flex;
