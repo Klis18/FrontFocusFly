@@ -21,6 +21,16 @@ export class MenuService {
       icon: 'event',
       option: 'Eventos',
       route: 'eventos'
+    },
+    {
+      icon: 'work',
+      option: 'Proyectos',
+      route: 'proyectos'
+    },
+    {
+      icon: 'group_2',
+      option: 'Clientes',
+      route: 'clientes'
     }
   ]
 
