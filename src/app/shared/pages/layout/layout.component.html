@@ -11,7 +11,7 @@
         <mat-nav-list>
             @for (menuItem of menu; track menuItem.option) {
               <a class="text-white py-3 px-4 cursor-pointer flex items-center itemSelected"
-                  routerLink="{{menuItem.route}}" routerLinkActive="itemSelected text-white">
+                  routerLink="{{menuItem.route}}" routerLinkActive="itemSelected text-white" (click)="snav.toggle()">
                 <mat-icon class="mr-4">
                   {{menuItem.icon}}
                 </mat-icon>

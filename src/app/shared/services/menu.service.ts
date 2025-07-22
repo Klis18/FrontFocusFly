@@ -9,7 +9,7 @@ export class MenuService {
   public menuItems: Menu[] = [
     {
       icon: 'dashboard',
-      option: 'Panel de Control',
+      option: 'Dashboard',
       route: 'dashboard'
     },
     {
