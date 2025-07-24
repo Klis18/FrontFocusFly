@@ -20,10 +20,10 @@ export class AlertsService {
     })
   constructor() { }
 
-  sendOkMessage(){
+  sendOkMessage(message: string){
       this.Toast.fire({
         icon: 'success',
-        title: 'Tarea creada exitosamente',
+        title: message,
       })
   }
 }

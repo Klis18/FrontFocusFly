@@ -41,7 +41,8 @@ export class TaskItemComponent {
     );
   }
 
-    deleteTask(id: number){
+
+  deleteTask(id: number){
     this.tasksServices.deleteTask(id).subscribe();
   }
 

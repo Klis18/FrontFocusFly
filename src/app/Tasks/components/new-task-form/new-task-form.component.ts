@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
-import { Task } from '../../interfaces/task.interface';
+import { CreateTask, Task } from '../../interfaces/task.interface';
 
 
 
@@ -74,17 +74,30 @@ export class NewTaskFormComponent implements OnInit{
 
   }
 
+  //TODO: Arreglar función del botón para que dependiendo el caso actualice o cree una nueva tarea
+
   onSubmit(){
     const {programadoPara, plazoEntrega} = this.taskForm.value;
+    console.log('FECHA PROGRAMADA', programadoPara);
     const newTask = {
       ...this.taskForm.value,
       programadoPara: this.formatDateOnly(programadoPara),
       plazoEntrega: this.formatDateOnly(plazoEntrega)
     }
+
+    if(this.title == 'Configuración de Tarea'){
+      this.updateTask(newTask);
+    }
+    else{
+      this.createTask(newTask)
+    }
+  }
+
+  createTask(newTask: CreateTask){
     this.tasksServices.createTask(newTask).subscribe(
       {
         next: (res) => {
-          this.alertService.sendOkMessage();
+          this.alertService.sendOkMessage('Tarea creada exitosamente');
           this.closeModal();
         }
       }
@@ -106,12 +119,25 @@ export class NewTaskFormComponent implements OnInit{
     );
   }
 
+  updateTask(updatedTask: CreateTask){
+    this.tasksServices.updateTask(this.data.idTask, updatedTask).subscribe(
+      {
+        next: (res) => {
+          this.alertService.sendOkMessage('Tarea actualizada exitosamente');
+          this.closeModal();
+        }
+      }
+    );
+  }
+
   closeModal(){
     this.dialogRef.close();
   }
 
   formatDateOnly(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const dtime = new Date(date);
+    dtime.setMinutes(dtime.getMinutes()-dtime.getTimezoneOffset());
+    return dtime.toISOString().split('T')[0];
   }
 
   formatDateUTC(date: Date): Date{
