@@ -74,8 +74,6 @@ export class NewTaskFormComponent implements OnInit{
 
   }
 
-  //TODO: Arreglar función del botón para que dependiendo el caso actualice o cree una nueva tarea
-
   onSubmit(){
     const {programadoPara, plazoEntrega} = this.taskForm.value;
     console.log('FECHA PROGRAMADA', programadoPara);

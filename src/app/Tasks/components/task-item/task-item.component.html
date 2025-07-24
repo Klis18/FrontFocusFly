@@ -2,7 +2,7 @@
 <div class="rounded-lg px-2 py-4 shadow-md mb-2 grid grid-cols-2 gap-2">
     <div class="col-span-2 flex flex-wrap items-center">
         <input type="radio" name="radio-2" [value]="taskItem()?.id" [(ngModel)]="state" class="size-5 mr-2 radio checked:bg-violet-300">
-        <button class="rounded-full bg-black text-white size-5 flex items-center mr-2">
+        <button class="rounded-full bg-black text-white size-5 flex items-center mr-2" (click)="openModalChronometer(taskItem()!.id)">
             <mat-icon class="text-base">
                 play_arrow
             </mat-icon>

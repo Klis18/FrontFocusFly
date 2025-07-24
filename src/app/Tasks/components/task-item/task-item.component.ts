@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TasksService } from '../../services/tasks.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewTaskFormComponent } from '../new-task-form/new-task-form.component';
+import { TaskChronometerComponent } from '../task-chronometer/task-chronometer.component';
 
 @Component({
   selector: 'tasks-task-item',
@@ -26,6 +27,18 @@ export class TaskItemComponent {
 
   constructor(private dialog:MatDialog, private tasksServices: TasksService){}
 
+  openModalChronometer(id:number){
+    this.dialog.open(TaskChronometerComponent,
+      {
+        data:{
+          idTask: id
+        },
+        width: '90%',
+        maxWidth: '700px', 
+        maxHeight: '95%'
+      }
+    )
+  }
 
   openModalConfiguration(id:number){
     this.dialog.open(NewTaskFormComponent,
