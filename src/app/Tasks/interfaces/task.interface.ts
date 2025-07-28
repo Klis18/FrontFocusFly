@@ -18,3 +18,7 @@ export interface CreateTask{
     programadoPara: Date,
     plazoEntrega: Date
 }
+
+export interface UpdateTask extends CreateTask{
+    tareaId: number;
+}

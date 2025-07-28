@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable} from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { CreateTask, Task } from '../interfaces/task.interface';
+import { CreateTask, Task, UpdateTask } from '../interfaces/task.interface';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 
@@ -34,8 +34,8 @@ export class TasksService {
     return this.http.post<CreateTask>(`${this.apiUrl}/tareas`,task);
   }
 
-  updateTask(id:number, task: CreateTask):Observable<CreateTask>{
-      return this.http.put<CreateTask>(`${this.apiUrl}/tareas/${id}`,task);
+  updateTask(task: UpdateTask):Observable<UpdateTask>{
+      return this.http.put<UpdateTask>(`${this.apiUrl}/tareas`,task);
   }
 
   deleteTask(id:number):Observable<Task>{

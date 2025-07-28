@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
-import { CreateTask, Task } from '../../interfaces/task.interface';
+import { CreateTask, Task} from '../../interfaces/task.interface';
 
 
 
@@ -118,7 +118,12 @@ export class NewTaskFormComponent implements OnInit{
   }
 
   updateTask(updatedTask: CreateTask){
-    this.tasksServices.updateTask(this.data.idTask, updatedTask).subscribe(
+    const updatedData = {
+      ...updatedTask,
+      tareaId:this.data.idTask
+    }
+    console.log('DATA CON ACTUALIZACIONES', updatedData);
+    this.tasksServices.updateTask(updatedData).subscribe(
       {
         next: (res) => {
           this.alertService.sendOkMessage('Tarea actualizada exitosamente');

@@ -16,7 +16,7 @@ import { AlertsService } from '../../../shared/services/alerts.service';
    
   `
 })
-export class TaskChronometerComponent implements OnInit, OnDestroy{
+export class TaskChronometerComponent implements OnInit{
 
   public data = inject(MAT_DIALOG_DATA);
   
@@ -25,10 +25,10 @@ export class TaskChronometerComponent implements OnInit, OnDestroy{
   taskName   : string = '';
   task!      : CreateTask;
 
-  tiempo: number = 0;
+  tiempoTranscurrido: number = 0;
   intervalo: any;
   corriendo: boolean = false;
-
+ //TODO: EL CRONOMETRO DEBE SUMAR AL TIEMPO REAL ACTUAL EN CASO QUE LA TAREA HAYA SIDO INICIADA ANTERIORMENTE Y CUENTE CON UN TIEMPO
   constructor(
               private alertService: AlertsService,
               private tasksServices: TasksService, 
@@ -37,6 +37,7 @@ export class TaskChronometerComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.getTask();
+    this.iniciar();
   }
 
   getTask(){
@@ -50,9 +51,10 @@ export class TaskChronometerComponent implements OnInit, OnDestroy{
   updateTime(){
     const updatedTime = {
       ...this.task,
-      tiempoReal: this.chronometer
+      tiempoReal: this.chronometer,
+      tareaId: this.data.id
     }
-    this.tasksServices.updateTask(this.idTask,updatedTime).subscribe(
+    this.tasksServices.updateTask(updatedTime).subscribe(
       {
         next: (res) => {
           this.alertService.sendOkMessage('Tiempo Real ha sido guardado exitosamente');
@@ -67,42 +69,40 @@ export class TaskChronometerComponent implements OnInit, OnDestroy{
   }
 
 
-  iniciarCronometro() {
+  iniciar() {
     if (!this.corriendo) {
       this.corriendo = true;
       this.intervalo = setInterval(() => {
-        this.tiempo++;
+        this.tiempoTranscurrido++;
+        this.obtenerTiempoFormateado();
       }, 1000);
     }
   }
 
-  detenerCronometro() {
-    if (this.corriendo) {
-      clearInterval(this.intervalo);
-      this.corriendo = false;
+  pausar() {
+    const updatedTime = {
+      ...this.task,
+      tiempoReal: this.chronometer,
+      tareaId: this.idTask
     }
+    this.corriendo = false;
+    this.tasksServices.updateTask(updatedTime).subscribe();
+    clearInterval(this.intervalo);
   }
 
-  reiniciarCronometro() {
-    this.detenerCronometro();
-    this.tiempo = 0;
+  reiniciar() {
+    this.chronometer = '00:00:00';
+    this.pausar();
   }
 
-  //TODO: CULMINAR CRONÓMETRO
-  formatoTiempo(): string {
-    const horas = Math.floor(this.tiempo / 3600);
-    const minutos = Math.floor((this.tiempo % 3600) / 60);
-    const segundos = this.tiempo % 60;
-    this.chronometer = `${this.formatear(horas)}:${this.formatear(minutos)}:${this.formatear(segundos)}`;
+  obtenerTiempoFormateado(): string {
+    const horas = Math.floor(this.tiempoTranscurrido / 3600);
+    const minutos = Math.floor((this.tiempoTranscurrido % 3600) / 60);
+    const segundos = this.tiempoTranscurrido % 60;
+
+    const formato = (valor: number) => valor.toString().padStart(2, '0');
+    this.chronometer = `${formato(horas)}:${formato(minutos)}:${formato(segundos)}`;
     return this.chronometer;
-  }
-
-  private formatear(valor: number): string {
-    return valor < 10 ? '0' + valor : valor.toString();
-  }
-
-  ngOnDestroy(): void {
-    this.detenerCronometro();
   }
 
 }
