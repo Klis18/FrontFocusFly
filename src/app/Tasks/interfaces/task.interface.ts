@@ -22,3 +22,20 @@ export interface CreateTask{
 export interface UpdateTask extends CreateTask{
     tareaId: number;
 }
+
+export interface TaskFilters{
+    descripcion?: string;
+    nombreProyecto?: string;
+    estado?: string;
+    programadoPara?: Date; // tipo Date
+    plazoEntrega?: Date;   // tipo Date
+    page?: number;
+    pageSize?: number;
+}
+
+export interface TaskResponse{
+    total: number;
+    paginaActual: number;
+    totalPaginas: number;
+    tareas: Task[];
+}

@@ -1,26 +1,48 @@
-<div class="py-4 grid place-items-center background-gradient-cyan rounded-lg">
-    <h3 class="text-white poppins-light text-xl">{{taskName}}</h3>
-    <div
-        class="radial-progress text-white mt-8"
-        style="--value:90; --size:12rem; --thickness: 5px;"
-        role="progressbar">
-        <p class="grid place-items-center">
-            <span class="text-4xl">{{chronometer}}</span>
-            <span class="text-xs">horas minutos segundos</span>
-        </p>
+<div class="background-gradient-cyan">
+    <div class="relative py-2">
+        <div class="absolute right-0 px-4">
+            <mat-icon class="text-gray-400 hover:text-cyan-500" (click)="closeModal()">
+                close
+            </mat-icon>
+        </div>
     </div>
-    <div class="mt-6 mb-4 flex items-center">
-        <button class="px-4 py-2 bg-slate-200 rounded-2xl mr-2 flex items-center hover:bg-black hover:text-white" (click)="pausar()">
-            <mat-icon>
-                pause
-            </mat-icon>
-            Pausar
-        </button>
-        <button class="px-4 py-2 bg-slate-200 rounded-2xl flex items-center hover:bg-black hover:text-white" (click)="reiniciar()">
-            <mat-icon>
-                restart_alt
-            </mat-icon>
-            Reiniciar
-        </button>
+    <div class="py-4 grid place-items-center rounded-lg">
+        <h3 class="text-white poppins-light text-xl">{{taskName}}</h3>
+        <div
+            class="radial-progress text-white mt-8"
+            style="--value:50; --size:12rem; --thickness: 5px;"
+            [ngStyle]="{'--value':avanceCronometro}"
+            role="progressbar">
+            <p class="grid place-items-center">
+                <span class="text-4xl">{{chronometer}}</span>
+                <span class="text-xs">horas minutos segundos</span>
+            </p>
+        </div>
+        <div class="mt-6 mb-4 flex items-center">
+            <button class="px-4 py-2 bg-slate-200 rounded-2xl mr-2  hover:bg-black hover:text-white" (click)="manageChronometer()">
+               @if(!isPausedTask){
+                   <span class="flex items-center">
+                       <mat-icon>
+                           pause
+                       </mat-icon>
+                       Pausar
+                   </span>
+               }
+               @if(isPausedTask){
+                   <span class="flex items-center">
+                       <mat-icon>
+                           play_arrow
+                       </mat-icon>
+                       Continuar
+                   </span>
+               }
+            </button>
+            <button class="px-4 py-2 bg-slate-200 rounded-2xl flex items-center hover:bg-black hover:text-white" (click)="reiniciar()">
+                <mat-icon>
+                    restart_alt
+                </mat-icon>
+                Reiniciar
+            </button>
+        </div>
     </div>
 </div>

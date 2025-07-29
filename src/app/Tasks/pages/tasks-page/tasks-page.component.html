@@ -13,7 +13,7 @@
 }
 
 <div class="mt-4">
-    @for(task of taskList(); track task.id){
+    @for(task of taskList; track task.id){
         <tasks-task-item [taskItem]="task"></tasks-task-item>
     }
 </div>

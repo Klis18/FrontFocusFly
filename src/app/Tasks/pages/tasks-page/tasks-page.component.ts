@@ -1,5 +1,5 @@
-import { Component, Signal } from '@angular/core';
-import { Task } from '../../interfaces/task.interface';
+import { Component, OnInit, Signal } from '@angular/core';
+import { Task, TaskFilters } from '../../interfaces/task.interface';
 import { TasksService } from '../../services/tasks.service';
 import { TaskItemComponent } from "../../components/task-item/task-item.component";
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { TaskChronometerComponent } from "../../components/task-chronometer/task
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewTaskFormComponent } from '../../components/new-task-form/new-task-form.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-tasks-page',
@@ -21,14 +22,44 @@ import { NewTaskFormComponent } from '../../components/new-task-form/new-task-fo
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
 })
-export default class TasksPageComponent{
+export default class TasksPageComponent implements OnInit{
 
-  public taskList: Signal<Task[]>;
+  public taskList!: Task[];
   public isChronometerActive: boolean = false;
+  public filters: TaskFilters = {
+    descripcion: '',
+    nombreProyecto: '',
+    estado: '',
+    programadoPara: undefined,
+    plazoEntrega: undefined,
+    page: 1,
+    pageSize: 5
+  };
+
+    totalTareas: number = 0;
+    paginaActual: number = 0;
+    totalPaginas: number = 0;
 
 
-  constructor(private tasksService: TasksService, private dialog:MatDialog){
-    this.taskList = this.tasksService.getTasks();
+  constructor(private tasksService: TasksService, private dialog:MatDialog){}
+
+  ngOnInit() {
+    this.obtenerTareas();
+  }
+
+  obtenerTareas() {
+    this.tasksService.obtenerTareasFiltradas(this.filters).subscribe({
+      next: (respuesta) => {
+        this.taskList = respuesta.tareas;
+        this.totalTareas = respuesta.total;
+        this.paginaActual = respuesta.paginaActual;
+        this.totalPaginas = respuesta.totalPaginas;
+        console.log('Tareas:', this.taskList);
+      },
+      error: (error) => {
+        console.error('Error al obtener tareas:', error);
+      }
+    });
   }
 
   openDialog(){
