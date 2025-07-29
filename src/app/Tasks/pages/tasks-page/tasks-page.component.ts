@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewTaskFormComponent } from '../../components/new-task-form/new-task-form.component';
 import { filter } from 'rxjs';
+import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 
 @Component({
   selector: 'app-tasks-page',
@@ -15,9 +16,9 @@ import { filter } from 'rxjs';
     CommonModule,
     MatIconModule,
     MatDialogModule,
-
     TaskItemComponent,
-    TaskChronometerComponent
+    TaskChronometerComponent,
+    PaginatorComponent
 ],
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
@@ -60,6 +61,11 @@ export default class TasksPageComponent implements OnInit{
         console.error('Error al obtener tareas:', error);
       }
     });
+  }
+
+  changePage(paginaActual:number){
+    this.filters.page = paginaActual;
+    this.obtenerTareas();
   }
 
   openDialog(){

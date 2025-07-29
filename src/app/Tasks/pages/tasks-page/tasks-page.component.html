@@ -17,4 +17,6 @@
         <tasks-task-item [taskItem]="task"></tasks-task-item>
     }
 </div>
-
+<div class="py-4">
+    <shared-paginator [paginaActual]="paginaActual" [totalPaginas]="totalPaginas" (changePage)="changePage($event)"></shared-paginator>
+</div>
