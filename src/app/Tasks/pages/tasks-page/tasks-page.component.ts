@@ -9,6 +9,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewTaskFormComponent } from '../../components/new-task-form/new-task-form.component';
 import { filter } from 'rxjs';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
+import { FiltersSearchComponent } from "../../../shared/components/filters-search/filters-search.component";
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-page',
@@ -18,7 +20,8 @@ import { PaginatorComponent } from "../../../shared/components/paginator/paginat
     MatDialogModule,
     TaskItemComponent,
     TaskChronometerComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    FiltersSearchComponent
 ],
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
@@ -61,6 +64,17 @@ export default class TasksPageComponent implements OnInit{
         console.error('Error al obtener tareas:', error);
       }
     });
+  }
+
+  applyFilters( form : any){
+    const {descripcion, estado, programadoPara, plazoEntrega} = form;
+    console.log('DATOS OBTENIDOS', {...form});
+    this.filters.descripcion = descripcion;
+    this.filters.nombreProyecto = descripcion;
+    this.filters.estado = estado;
+    this.filters.programadoPara = programadoPara;
+    this.filters.plazoEntrega = plazoEntrega;
+    this.obtenerTareas();
   }
 
   changePage(paginaActual:number){

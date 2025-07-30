@@ -27,8 +27,8 @@ export interface TaskFilters{
     descripcion?: string;
     nombreProyecto?: string;
     estado?: string;
-    programadoPara?: Date; // tipo Date
-    plazoEntrega?: Date;   // tipo Date
+    programadoPara?: Date;
+    plazoEntrega?: Date;  
     page?: number;
     pageSize?: number;
 }
