@@ -70,7 +70,7 @@ export default class TasksPageComponent implements OnInit{
     const {descripcion, estado, programadoPara, plazoEntrega} = form;
     console.log('DATOS OBTENIDOS', {...form});
     this.filters.descripcion = descripcion;
-    this.filters.nombreProyecto = descripcion;
+    // this.filters.nombreProyecto = descripcion;
     this.filters.estado = estado;
     this.filters.programadoPara = programadoPara;
     this.filters.plazoEntrega = plazoEntrega;
@@ -83,7 +83,7 @@ export default class TasksPageComponent implements OnInit{
   }
 
   openDialog(){
-    this.dialog.open(NewTaskFormComponent,
+    const modal = this.dialog.open(NewTaskFormComponent,
       {
         data:{
           title: 'Nueva Tarea',
@@ -91,6 +91,11 @@ export default class TasksPageComponent implements OnInit{
         width: '90%',    
         maxWidth: '700px', 
         maxHeight: '800px'
+      }
+    );
+    modal.afterClosed().subscribe(
+      (res) =>{
+        this.obtenerTareas();
       }
     );
   }

@@ -16,7 +16,6 @@ import { AlertsService } from '../../../shared/services/alerts.service';
 import { CreateTask, Task} from '../../interfaces/task.interface';
 
 
-
 @Component({
   selector: 'app-new-task-form',
   imports: [
