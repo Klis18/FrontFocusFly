@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TaskFilters } from '../../../Tasks/interfaces/task.interface';
+import { Project } from '../../../projects/interfaces/project.interface';
+import { ProjectsService } from '../../../projects/services/projects.service';
 
 @Component({
   selector: 'shared-filters-search',
@@ -24,14 +26,20 @@ export class FiltersSearchComponent {
   sendDataFilters = new EventEmitter<FormGroup>;
 
   filterForm !: FormGroup;
+  public projectsList: Signal<Project[]>;
 
-  constructor(private fb : FormBuilder){
+
+  constructor(private fb : FormBuilder, private projectsServices: ProjectsService,
+  ){
     this.filterForm = this.fb.group({
       descripcion : [''],
+      proyecto : [''],
       estado : [''],
       programadoPara : [''],
       plazoEntrega : ['']
     });
+
+    this.projectsList = this.projectsServices.getProjects();
   }
 
   sendFilters(){

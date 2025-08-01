@@ -79,6 +79,7 @@ export class TaskChronometerComponent implements OnInit{
   pausar() {
     const updatedTime = {
       ...this.task,
+      estadoId : 2,
       tiempoReal: this.chronometer,
       tareaId: this.idTask
     }

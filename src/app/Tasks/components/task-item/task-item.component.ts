@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { Task } from '../../interfaces/task.interface';
+import { Component, EventEmitter, input, OnInit, output } from '@angular/core';
+import { Task, CreateTask } from '../../interfaces/task.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,15 +20,47 @@ import { TaskChronometerComponent } from '../task-chronometer/task-chronometer.c
   templateUrl: './task-item.component.html',
   styles: ``
 })
-export class TaskItemComponent {
+export class TaskItemComponent implements OnInit{
 
   taskItem = input<Task>();
-  state:string =  '';
+  changeInItem = output<string>();
+  // state : string =  '';
+  taskToUpdate !: CreateTask;
 
   constructor(private dialog:MatDialog, private tasksServices: TasksService){}
+  
+  ngOnInit(): void {
+    this.getTask();
+  }
+
+   getTask(){
+    this.tasksServices.getTask(this.taskItem()!.id).subscribe((res)=> {
+      this.taskToUpdate = res;
+    });
+  }
+
+  updateStatusTask(){
+    let estadoIdUpdate : number;
+    if(this.taskItem()?.estado == 'Finalizado' && this.taskItem()?.tiempoReal != '00:00:00'){
+      estadoIdUpdate = 2;
+    } else if(this.taskItem()?.estado == 'Finalizado'){
+      estadoIdUpdate = 1;
+    }else{
+      estadoIdUpdate = 4
+    }
+    const updateData = {
+      ...this.taskToUpdate,
+      tareaId : this.taskItem()!.id,
+      estadoId : estadoIdUpdate
+    }
+    this.tasksServices.updateTask(updateData).subscribe((res)=>{
+      this.sendMessageReloadPage();
+    });
+  }
+
 
   openModalChronometer(id:number){
-    this.dialog.open(TaskChronometerComponent,
+    const modal = this.dialog.open(TaskChronometerComponent,
       {
         data:{
           idTask: id
@@ -38,6 +70,9 @@ export class TaskItemComponent {
         maxHeight: '95%'
       }
     )
+    modal.afterClosed().subscribe((res)=>{
+      this.sendMessageReloadPage();
+    })
   }
 
   openModalConfiguration(id:number){
@@ -52,6 +87,10 @@ export class TaskItemComponent {
         maxHeight: '95%'
       }
     );
+  }
+
+  sendMessageReloadPage(){
+    this.changeInItem.emit('reloadPage');
   }
 
 

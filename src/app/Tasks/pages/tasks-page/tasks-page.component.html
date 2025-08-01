@@ -16,7 +16,7 @@
 </div>
 <div class="mt-4">
     @for(task of taskList; track task.id){
-        <tasks-task-item [taskItem]="task"></tasks-task-item>
+        <tasks-task-item [taskItem]="task" (changeInItem)="reloadPage($event)"></tasks-task-item>
     }
 </div>
 <div class="py-4">

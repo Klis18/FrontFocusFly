@@ -1,13 +1,19 @@
 
 <div class="rounded-lg px-2 py-4 shadow-md mb-2 grid grid-cols-2 gap-2">
     <div class="col-span-2 flex flex-wrap items-center">
-        <input type="radio" name="radio-2" [value]="taskItem()?.id" [(ngModel)]="state" class="size-5 mr-2 radio checked:bg-violet-300">
-        <button class="rounded-full bg-black text-white size-5 flex items-center mr-2" (click)="openModalChronometer(taskItem()!.id)">
-            <mat-icon class="text-base">
-                play_arrow
-            </mat-icon>
+        <button class="size-5 mr-2 rounded-full border border-gray-300 flex items-center justify-center p-1" [ngClass]="{'bg-lime-500': taskItem()?.estado == 'Finalizado'}" (click)="updateStatusTask()">
+            @if(taskItem()?.estado == 'Finalizado'){
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#cbf7c5" viewBox="0 0 256 256"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg>
+            }
         </button>
-        <span class="mr-2 w-3/5">{{taskItem()?.descripcion}}</span>
+        @if(taskItem()?.estado != 'Finalizado') {
+            <button class="rounded-full bg-black text-white size-5 flex items-center mr-2" (click)="openModalChronometer(taskItem()!.id)">
+                <mat-icon class="text-base">
+                    play_arrow
+                </mat-icon>
+            </button>
+        }
+        <span class="mr-2 w-3/5" [ngClass]="{'line-through': taskItem()?.estado == 'Finalizado'}">{{taskItem()?.descripcion}}</span>
         <div class="grow"></div>
         <div class="">
             <mat-icon class="text-red-700 cursor-pointer mx-2" (click)="deleteTask(taskItem()!.id)">
