@@ -22,29 +22,26 @@ export class TaskChronometerComponent implements OnInit{
 
   public data = inject(MAT_DIALOG_DATA);
   
-  chronometer: string = '00:00:00';
-  horas      : number = 0;
-  minutos    : number = 0;
-  segundos   : number = 0;
-  idTask     : number = this.data.idTask;
-  isPausedTask: boolean = false;
-  taskName   : string = '';
-  task!      : CreateTask;
-  avanceCronometro:number = 0;
+  chronometer        : string      = '00:00:00';
+  horas              : number      = 0;
+  minutos            : number      = 0;
+  segundos           : number      = 0;
+  idTask             : number      = this.data.idTask;
+  isPausedTask       : boolean     = false;
+  taskName           : string      = '';
+  task!              : CreateTask;
+  avanceCronometro   : number      = 0;
+  tiempoTranscurrido : number      = 0;
+  intervalo          : any;
+  corriendo          : boolean     = false;
 
-  tiempoTranscurrido: number = 0;
-  intervalo: any;
-  corriendo: boolean = false;
- //TODO: EL CRONOMETRO DEBE SUMAR AL TIEMPO REAL ACTUAL EN CASO QUE LA TAREA HAYA SIDO INICIADA ANTERIORMENTE Y CUENTE CON UN TIEMPO
   constructor(
-              private alertService: AlertsService,
               private tasksServices: TasksService, 
               private dialogRef: MatDialogRef<TaskChronometerComponent>,
             ){}
 
   ngOnInit(): void {
-    this.getTask();
-    this.iniciar();
+    this.continuar();
   }
 
   getTask(){
@@ -98,14 +95,17 @@ export class TaskChronometerComponent implements OnInit{
     this.manageChronometer()
   }
 
+  endTask(){
+    this.pausar();
+    this.dialogRef.close({message:'endTask', data:this.chronometer});
+  }
+
   manageChronometer(){
     if(this.isPausedTask == false){
-      console.log('La tarea está pausada');
       this.pausar()
       this.isPausedTask = true;
 
     }else{
-      console.log('La tarea continúa');
       this.continuar()
       this.isPausedTask = false;
     }

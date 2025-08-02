@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, OnInit, output } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { Task, CreateTask } from '../../interfaces/task.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -70,7 +70,19 @@ export class TaskItemComponent implements OnInit{
       }
     )
     modal.afterClosed().subscribe((res)=>{
+      if(res.message == 'endTask'){
+        const updateData = {
+          ...this.taskToUpdate,
+          estadoId: 4,
+          tiempoReal: res.data,
+          tareaId : this.taskItem()!.id,
+        }
+        this.tasksServices.updateTask(updateData).subscribe((res)=>{
+          this.sendMessageReloadPage();
+        });
+      }
       this.sendMessageReloadPage();
+      this.getTask();
     })
   }
 

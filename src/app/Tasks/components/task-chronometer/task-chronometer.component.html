@@ -18,8 +18,8 @@
                 <span class="text-xs">horas minutos segundos</span>
             </p>
         </div>
-        <div class="mt-6 mb-4 flex items-center">
-            <button class="px-4 py-2 bg-slate-200 rounded-2xl mr-2  hover:bg-black hover:text-white" (click)="manageChronometer()">
+        <div class="mt-6 mb-4 flex flex-wrap items-center justify-center gap-2">
+            <button class="px-4 py-2 bg-slate-200 rounded-2xl hover:bg-black hover:text-white" (click)="manageChronometer()">
                @if(!isPausedTask){
                    <span class="flex items-center">
                        <mat-icon>
@@ -36,6 +36,12 @@
                        Continuar
                    </span>
                }
+            </button>
+            <button class="px-4 py-2 bg-slate-200 rounded-2xl flex items-center hover:bg-black hover:text-white" (click)="endTask()">
+                <mat-icon>
+                    check
+                </mat-icon>
+                Finalizar Tarea
             </button>
             <button class="px-4 py-2 bg-slate-200 rounded-2xl flex items-center hover:bg-black hover:text-white" (click)="reiniciar()">
                 <mat-icon>
