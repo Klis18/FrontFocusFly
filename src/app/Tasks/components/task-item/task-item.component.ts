@@ -24,7 +24,6 @@ export class TaskItemComponent implements OnInit{
 
   taskItem = input<Task>();
   changeInItem = output<string>();
-  // state : string =  '';
   taskToUpdate !: CreateTask;
 
   constructor(private dialog:MatDialog, private tasksServices: TasksService){}

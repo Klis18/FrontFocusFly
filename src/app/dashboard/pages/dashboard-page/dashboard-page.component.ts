@@ -10,4 +10,10 @@ import { WeekTasksComponent } from "../../components/week-tasks/week-tasks.compo
 })
 export default class DashboardPageComponent {
 
+  hoursWeekWorks : number = 0;
+
+  receiveTotalHours(hours:number){
+    this.hoursWeekWorks = hours
+  }
+
 }

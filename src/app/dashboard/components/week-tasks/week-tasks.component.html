@@ -27,5 +27,11 @@
         @for(item of weekTasksList; track item.id){
             <tasks-task-item [taskItem]="item" (changeInItem)="reloadPage($event)"></tasks-task-item>
         }
+
+        @if(!weekTasksList.length){
+            <div class="bg-gray-200 p-10 poppins-light text-lg rounded-lg grid place-items-center">
+                No existen tareas {{activeStatus | lowercase}}
+            </div>
+        }
     </div>
 </section>

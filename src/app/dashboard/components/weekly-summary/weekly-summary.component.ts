@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'dashboard-weekly-summary',
@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class WeeklySummaryComponent {
+
+  totalHoursWorks = input<number>();
 
 }

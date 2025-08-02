@@ -1,8 +1,8 @@
 <h1 class="text-3xl">Esta Semana</h1>
 <hr>
 <section class="py-4">
-    <dashboard-weekly-summary></dashboard-weekly-summary>
+    <dashboard-weekly-summary [totalHoursWorks]="hoursWeekWorks"></dashboard-weekly-summary>
 </section>
 <section class="py-4">
-    <dashboard-week-tasks></dashboard-week-tasks>
+    <dashboard-week-tasks (sendTotalHours)="receiveTotalHours($event)"></dashboard-week-tasks>
 </section>

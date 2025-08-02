@@ -22,7 +22,7 @@
   } */
 
    .background-gradient-cyan{
-      background: radial-gradient(#45cae7, #087e9e);
+      background: radial-gradient(#38c1e0, #066d8a);
   }
 
    .background-gradient-cyan2{
@@ -46,11 +46,11 @@
   } */
 
   .bg-primary{
-    background-color: #04addc !important;
+    background-color: #066d8a !important;
   }
 
   .bg-primary2{
-    background-color: #18C9FB;
+    background-color: #08afdd;
   }
 
   .bg-secondary{
