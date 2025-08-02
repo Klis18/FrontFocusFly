@@ -47,6 +47,15 @@ export class WeekTasksComponent implements OnInit, OnDestroy{
     );
   }
 
+    reloadPage(reload : string){
+    if(reload){
+      this.filterList('Pendiente');
+      this.getTasksCount('Pendiente');
+      this.getTasksCount('En Proceso');
+      this.getTasksCount('Finalizado');
+    }
+  }
+
   getTasksCount(state: string){
     this.countSubscription = this.tasksService.getWeekTasks(state).subscribe(
       res => {
