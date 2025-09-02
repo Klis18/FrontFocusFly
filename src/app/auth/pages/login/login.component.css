@@ -1,0 +1,9 @@
+.bg-login2{
+    background-color: rgba(10, 130, 163, 0.5);
+}
+
+.bg-login1{
+    background-image: url('/images/room2.jpg');
+    background-position: center;
+    background-size: cover;
+}

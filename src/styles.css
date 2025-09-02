@@ -224,7 +224,7 @@ img{
     "wdth" 100;
 }
 
-.open-sans-bold, h1, h2 {
+.open-sans-bold, h1, h2, h3 {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
