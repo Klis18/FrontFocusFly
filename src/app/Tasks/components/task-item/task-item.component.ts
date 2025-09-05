@@ -22,8 +22,8 @@ import { TaskChronometerComponent } from '../task-chronometer/task-chronometer.c
 })
 export class TaskItemComponent implements OnInit{
 
-  taskItem = input<Task>();
-  changeInItem = output<string>();
+  taskItem      = input<Task>();
+  changeInItem  = output<string>();
   taskToUpdate !: CreateTask;
 
   constructor(private dialog:MatDialog, private tasksServices: TasksService){}
@@ -40,13 +40,14 @@ export class TaskItemComponent implements OnInit{
 
   updateStatusTask(){
     let estadoIdUpdate : number;
-    if(this.taskItem()?.estado == 'Finalizado' && this.taskItem()?.tiempoReal != '00:00:00'){
-      estadoIdUpdate = 2;
-    } else if(this.taskItem()?.estado == 'Finalizado'){
-      estadoIdUpdate = 1;
-    }else{
-      estadoIdUpdate = 4
-    }
+    estadoIdUpdate = (this.taskItem()?.estado == 'Finalizado') ? ((this.taskItem()?.tiempoReal != '00:00:00')? 2 : 1 ): 4;
+    // if(this.taskItem()?.estado == 'Finalizado' && this.taskItem()?.tiempoReal != '00:00:00'){
+    //   estadoIdUpdate = 2;
+    // } else if(this.taskItem()?.estado == 'Finalizado'){
+    //   estadoIdUpdate = 1;
+    // }else{
+    //   estadoIdUpdate = 4
+    // }
     const updateData = {
       ...this.taskToUpdate,
       tareaId : this.taskItem()!.id,

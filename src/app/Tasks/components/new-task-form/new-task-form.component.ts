@@ -33,15 +33,13 @@ import { CreateTask, Task} from '../../interfaces/task.interface';
 })
 export class NewTaskFormComponent implements OnInit{
 
-  public taskForm !: FormGroup;
-  public projectsList: Signal<Project[]>;
-  public dateToday: Date = new Date(Date.now());
-
+  public taskForm       !: FormGroup;
+  public projectsList    : Signal<Project[]>;
+  public dateToday       : Date = new Date(Date.now());
+  public title          !: string;
+  public isShowRealTime !: boolean;
+  public task           !: Task;
   public data = inject(MAT_DIALOG_DATA);
-
-  public title!: string;
-  public isShowRealTime!: boolean;
-  public task!: Task;
 
   constructor(private fb: FormBuilder, 
               private tasksServices: TasksService, 
@@ -70,12 +68,10 @@ export class NewTaskFormComponent implements OnInit{
       this.getTask();
     }
     
-
   }
 
   onSubmit(){
     const {programadoPara, plazoEntrega} = this.taskForm.value;
-    console.log('FECHA PROGRAMADA', programadoPara);
     const newTask = {
       ...this.taskForm.value,
       programadoPara: this.formatDateOnly(programadoPara),
@@ -121,7 +117,6 @@ export class NewTaskFormComponent implements OnInit{
       ...updatedTask,
       tareaId:this.data.idTask
     }
-    console.log('DATA CON ACTUALIZACIONES', updatedData);
     this.tasksServices.updateTask(updatedData).subscribe(
       {
         next: (res) => {
@@ -144,9 +139,9 @@ export class NewTaskFormComponent implements OnInit{
 
   formatDateUTC(date: Date): Date{
     const fechaStr = date.toString();
-        const [year, month, day] = fechaStr.split("-").map(Number);
-        const fechaUTC = new Date(Date.UTC(year, month - 1 , day + 1));
-        return fechaUTC;
+    const [year, month, day] = fechaStr.split("-").map(Number);
+    const fechaUTC = new Date(Date.UTC(year, month - 1 , day + 1));
+    return fechaUTC;
   }
 
 }

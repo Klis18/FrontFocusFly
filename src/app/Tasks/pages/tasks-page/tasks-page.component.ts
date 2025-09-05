@@ -26,9 +26,9 @@ import { FiltersSearchComponent } from "../../../shared/components/filters-searc
 })
 export default class TasksPageComponent implements OnInit{
 
-  public taskList!: Task[];
-  public isChronometerActive: boolean = false;
-  public filters: TaskFilters = {
+  public taskList           !: Task[];
+  public isChronometerActive : boolean = false;
+  public filters             : TaskFilters = {
     descripcion: '',
     nombreProyecto: '',
     estado: '',
@@ -38,9 +38,9 @@ export default class TasksPageComponent implements OnInit{
     pageSize: 5
   };
 
-    totalTareas: number = 0;
-    paginaActual: number = 0;
-    totalPaginas: number = 0;
+    totalTareas   : number = 0;
+    paginaActual  : number = 0;
+    totalPaginas  : number = 0;
 
 
   constructor(private tasksService: TasksService, private dialog:MatDialog){}
@@ -50,10 +50,10 @@ export default class TasksPageComponent implements OnInit{
   }
 
   obtenerTareas() {
-    this.tasksService.obtenerTareasFiltradas(this.filters).subscribe({
+    this.tasksService.getFilteredTasks(this.filters).subscribe({
       next: (respuesta) => {
-        this.taskList = respuesta.tareas;
-        this.totalTareas = respuesta.total;
+        this.taskList     = respuesta.tareas;
+        this.totalTareas  = respuesta.total;
         this.paginaActual = respuesta.paginaActual;
         this.totalPaginas = respuesta.totalPaginas;
       },
@@ -65,11 +65,11 @@ export default class TasksPageComponent implements OnInit{
 
   applyFilters( form : any){
     const {descripcion, proyecto, estado, programadoPara, plazoEntrega} = form;
-    this.filters.descripcion = descripcion;
+    this.filters.descripcion    = descripcion;
     this.filters.nombreProyecto = proyecto;
-    this.filters.estado = estado;
+    this.filters.estado         = estado;
     this.filters.programadoPara = programadoPara;
-    this.filters.plazoEntrega = plazoEntrega;
+    this.filters.plazoEntrega   = plazoEntrega;
     this.obtenerTareas();
   }
 

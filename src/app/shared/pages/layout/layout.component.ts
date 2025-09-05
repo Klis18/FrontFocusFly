@@ -58,17 +58,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class LayoutComponent implements OnInit,OnDestroy{
 
-
-  public menu: Menu[] = [];
-
   protected readonly isMobile = signal(true);
-
-  private readonly _mobileQuery: MediaQueryList;
-  private readonly _mobileQueryListener: () => void;
+  
+  public menu                           : Menu[] = [];
+  private readonly _mobileQuery         : MediaQueryList;
+  private readonly _mobileQueryListener : () => void;
 
   constructor(private menuService: MenuService) {
     const media = inject(MediaMatcher);
-
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);

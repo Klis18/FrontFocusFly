@@ -4,7 +4,6 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TaskFilters } from '../../../Tasks/interfaces/task.interface';
 import { Project } from '../../../projects/interfaces/project.interface';
 import { ProjectsService } from '../../../projects/services/projects.service';
 
@@ -25,25 +24,24 @@ export class FiltersSearchComponent {
   @Output()
   sendDataFilters = new EventEmitter<FormGroup>;
 
-  filterForm !: FormGroup;
-  public projectsList: Signal<Project[]>;
+  filterForm         !: FormGroup;
+  public projectsList : Signal<Project[]>;
 
 
   constructor(private fb : FormBuilder, private projectsServices: ProjectsService,
   ){
     this.filterForm = this.fb.group({
-      descripcion : [''],
-      proyecto : [''],
-      estado : [''],
+      descripcion    : [''],
+      proyecto       : [''],
+      estado         : [''],
       programadoPara : [''],
-      plazoEntrega : ['']
+      plazoEntrega   : ['']
     });
 
     this.projectsList = this.projectsServices.getProjects();
   }
 
   sendFilters(){
-    console.log('FILTROS ACTIVADOS', this.filterForm.value);
     this.sendDataFilters.emit(this.filterForm.value);
     this.cleanForm();
   }

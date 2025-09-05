@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class TasksService {
 
-  http = inject(HttpClient);
+  http   = inject(HttpClient);
   apiUrl = environment.apiUrl;
 
 
@@ -21,7 +21,7 @@ export class TasksService {
     return toSignal(listaTareas, {initialValue:[]})
   }
 
-  obtenerTareasFiltradas(filtros: TaskFilters): Observable<TaskResponse> {
+  getFilteredTasks(filtros: TaskFilters): Observable<TaskResponse> {
     let params = new HttpParams();
 
     Object.entries(filtros).forEach(([key, value]) => {
