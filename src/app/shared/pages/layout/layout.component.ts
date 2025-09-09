@@ -6,9 +6,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
 import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../interfaces/menu.interface';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -21,6 +23,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
+    MatMenuModule,
     MatToolbarModule
   ],
   templateUrl: './layout.component.html',
@@ -64,7 +67,7 @@ export class LayoutComponent implements OnInit,OnDestroy{
   private readonly _mobileQuery         : MediaQueryList;
   private readonly _mobileQueryListener : () => void;
 
-  constructor(private menuService: MenuService) {
+  constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {
     const media = inject(MediaMatcher);
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
@@ -79,4 +82,8 @@ export class LayoutComponent implements OnInit,OnDestroy{
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
+  logout(){
+    this.authService.logout();
+    this.router.navigateByUrl('auth');
+  }
 }
