@@ -5,20 +5,20 @@
                 <img src="/images/focusfly.png" alt="logo">        
             </div>
             <h2 class="text-2xl text-primary text-center">Iniciar Sesión</h2>
-            <form action="">
+            <form [formGroup]="loginForm" (submit)="login()">
                 <div class="mt-7 grid gap-5">
                     <div>
                         <label for="" class="block">Correo electrónico</label>
-                        <input type="text" placeholder="usuario@email.com" class="w-full border p-2 text-base rounded-md"/>
+                        <input type="text" placeholder="usuario@email.com" formControlName="email" class="w-full border p-2 text-base rounded-md"/>
                     </div>
                     <div>
                         <label for="" class="block">Contraseña</label>
-                        <input type="password" placeholder="Password" class="w-full border p-2 text-base rounded-md"/>
+                        <input type="password" placeholder="Password" formControlName="password" class="w-full border p-2 text-base rounded-md"/>
                         <div class="relative">
                             <a href="" class="text-primary absolute right-0 text-sm pt-1">Olvidé mi contraseña</a>
                         </div>
                     </div>
-                    <button class="bg-primary p-2 w-full text-white text-center rounded-md mt-8 hover:bg-cyan-500">Ingresar</button>
+                    <button class="bg-primary p-2 w-full text-white text-center rounded-md mt-8 hover:bg-cyan-500" [disabled]="!loginForm.valid">Ingresar</button>
                     <div class="flex justify-center">
                         <a href="" class="text-primary">Registrarse</a>
                     </div>
