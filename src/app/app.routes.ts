@@ -9,6 +9,10 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
+        path:'register',
+        loadComponent: () => import('./auth/pages/register/register.component')
+    },
+    {
         path:'user',
         component: LayoutComponent,
         children:[

@@ -29,6 +29,16 @@
       background: linear-gradient(to right, #72b1c8, #61639b)
   }
 
+  .bg-blue-glass{
+    background-color: rgba(10, 130, 163, 0.5);
+  }
+
+  .bg-auth{
+      background-image: url('/images/room2.jpg');
+      background-position: center;
+      background-size: cover;
+  }
+
   /* .bg-primary{
     background-color: #1696BE !important;
   }

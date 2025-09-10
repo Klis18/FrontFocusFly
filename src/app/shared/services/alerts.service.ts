@@ -20,10 +20,25 @@ export class AlertsService {
     })
   constructor() { }
 
+  toastOkMessage(message: string){
+    this.Toast.fire({
+      icon: 'success',
+      title: message,
+    })
+  }
+
   sendOkMessage(message: string){
-      this.Toast.fire({
+      Swal.fire({
         icon: 'success',
         title: message,
       })
   }
+
+  sendErrorMessage(message: string){
+    Swal.fire({
+      icon:'error',
+      title: message
+    })
+  }
+
 }
