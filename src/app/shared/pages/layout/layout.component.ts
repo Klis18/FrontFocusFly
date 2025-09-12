@@ -11,6 +11,8 @@ import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../interfaces/menu.interface';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { UsersService } from '../../../users/services/users.service';
+import { User } from '../../../users/interfaces/user.interface';
 
 @Component({
   selector: 'app-layout',
@@ -66,8 +68,12 @@ export class LayoutComponent implements OnInit,OnDestroy{
   public menu                           : Menu[] = [];
   private readonly _mobileQuery         : MediaQueryList;
   private readonly _mobileQueryListener : () => void;
+  public userData ?: User;
 
-  constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {
+  constructor(private menuService: MenuService, 
+              private authService: AuthService,
+              private userService: UsersService, 
+              private router: Router) {
     const media = inject(MediaMatcher);
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
@@ -76,6 +82,7 @@ export class LayoutComponent implements OnInit,OnDestroy{
   }
   ngOnInit(): void {
     this.menu = this.menuService.getMenuItems();
+    this.getUser();
   }
 
   ngOnDestroy(): void {
@@ -85,5 +92,9 @@ export class LayoutComponent implements OnInit,OnDestroy{
   logout(){
     this.authService.logout();
     this.router.navigateByUrl('login');
+  }
+
+  getUser(){
+    this.userService.getUserData().subscribe(res=> this.userData = res);
   }
 }
