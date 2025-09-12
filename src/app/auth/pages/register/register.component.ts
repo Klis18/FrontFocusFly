@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RegisterFormComponent } from "../../components/register-form/register-form.component";
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
-  imports: [RegisterFormComponent],
+  imports: [MatIconModule, RegisterFormComponent],
   templateUrl: './register.component.html',
   styles: ``
 })

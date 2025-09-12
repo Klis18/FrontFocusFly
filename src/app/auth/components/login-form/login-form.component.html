@@ -3,10 +3,12 @@
         <div>
             <label for="email" class="block">Correo electrónico</label>
             <input type="text" placeholder="usuario@email.com" formControlName="email" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="loginForm" [formField]="'email'"></field-validators-message>
         </div>
         <div>
             <label for="password" class="block">Contraseña</label>
             <input type="password" placeholder="Password" formControlName="password" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="loginForm" [formField]="'password'"></field-validators-message>
             <div class="relative">
                 <a href="" class="text-primary absolute right-0 text-sm pt-1">Olvidé mi contraseña</a>
             </div>

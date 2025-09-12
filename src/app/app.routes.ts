@@ -1,19 +1,22 @@
-import { Routes } from '@angular/router';
+import { Routes, CanMatchFn } from '@angular/router';
 import { LayoutComponent } from './shared/pages/layout/layout.component';
 import { LoginComponent } from './auth/pages/login/login.component';
 import { authGuard } from './auth/guards/auth.guard';
+import { notAuthenticatedGuard } from './auth/guards/not-authenticated.guard';
 
 export const routes: Routes = [
     {
-        path:'auth',
-        component: LoginComponent
+        path:'login',
+        component: LoginComponent,
+        canMatch: [notAuthenticatedGuard]
     },
     {
         path:'register',
-        loadComponent: () => import('./auth/pages/register/register.component')
+        loadComponent: () => import('./auth/pages/register/register.component'),
+        canMatch: [notAuthenticatedGuard]
     },
     {
-        path:'user',
+        path:'',
         component: LayoutComponent,
         children:[
             {
@@ -45,6 +48,6 @@ export const routes: Routes = [
     },
     {
         path:'**',
-        redirectTo:'auth'
+        redirectTo:'/login'
     }
 ];

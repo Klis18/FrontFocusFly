@@ -3,15 +3,26 @@
         <div>
             <label for="name" class="block">Nombre Usuario</label>
             <input type="text" placeholder="NashLia10" formControlName="nombre" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="registerForm" [formField]="'nombre'"></field-validators-message>
         </div>
         <div>
             <label for="email" class="block">Correo electrónico</label>
             <input type="text" placeholder="usuario@email.com" formControlName="email" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="registerForm" [formField]="'email'"></field-validators-message>
         </div>
         <div>
             <label for="password" class="block">Contraseña</label>
             <input type="password" placeholder="Password" formControlName="password" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="registerForm" [formField]="'password'"></field-validators-message>
         </div>
+        <div>
+            <label for="confirmpassword" class="block">Confirmar Contraseña</label>
+            <input type="password" placeholder="Confirmar Password" formControlName="confirmpassword" class="w-full border p-2 text-base rounded-md"/>
+            <field-validators-message [formName]="registerForm" [formField]="'confirmpassword'"></field-validators-message>
+        </div>
+        @if( registerForm.errors && registerForm.touched ) {
+            <span class="text-red-700 text-sm"> Las contraseñas no son iguales </span>
+        }
         <button class="bg-primary p-2 w-full text-white text-center rounded-md mt-8 hover:bg-cyan-500" [disabled]="!registerForm.valid">Registrar</button>
     </div>
 </form>
