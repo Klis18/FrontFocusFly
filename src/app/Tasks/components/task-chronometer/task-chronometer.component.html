@@ -7,17 +7,24 @@
         </div>
     </div>
     <div class="py-4 grid place-items-center rounded-lg">
-        <h3 class="text-white poppins-light text-xl">{{taskName}}</h3>
+        <h3 class="text-white poppins-light text-xl mb-4">{{taskName}}</h3>
+
+        <div class="relative w-48 h-48">
+        <div class="absolute inset-0 rounded-full bg-gray-100"></div>
         <div
-            class="radial-progress text-white mt-8"
-            style="--value:50; --size:12rem; --thickness: 5px;"
-            [ngStyle]="{'--value':avanceCronometro}"
-            role="progressbar">
-            <p class="grid place-items-center">
+            class="absolute inset-0 rounded-full"
+            [ngStyle]="{ '--p': avanceCronometro + '%' }"
+            style="background: conic-gradient(from -0deg, #23c1e9 0% var(--p), rgba(0,0,0,0) var(--p) 100%); transition: --p 600ms linear;"
+            aria-hidden="true"
+        ></div>
+        <div class="absolute inset-[10px] bg-white rounded-full flex items-center justify-center pointer-events-none">
+            <div class="grid place-items-center">
                 <span class="text-4xl">{{chronometer}}</span>
                 <span class="text-xs">horas minutos segundos</span>
-            </p>
+            </div>
         </div>
+        </div>
+
         <div class="mt-6 mb-4 flex flex-wrap items-center justify-center gap-2">
             <button class="px-4 py-2 bg-slate-200 rounded-2xl hover:bg-black hover:text-white" (click)="manageChronometer()">
                @if(!isPausedTask){

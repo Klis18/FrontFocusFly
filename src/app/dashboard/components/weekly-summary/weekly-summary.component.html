@@ -1,14 +1,12 @@
 <div class="bg-primary2 h-52 w-full text-white text-center grid place-items-center rounded-md">
 
-    <div class="stats">
-    
-      <div class="stat">
+    <div class="flex items-center justify-center">
         <div class="stat-figure">
-            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="m393-165 279-335H492l36-286-253 366h154l-36 255Zm-73 85 40-280H160l360-520h80l-40 320h240L400-80h-80Zm154-396Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="72px" viewBox="0 -960 960 960" width="72px" fill="#FFFFFF"><path d="m393-165 279-335H492l36-286-253 366h154l-36 255Zm-73 85 40-280H160l360-520h80l-40 320h240L400-80h-80Zm154-396Z"/></svg>
         </div>
-        <div class="stat-value text-7xl">{{totalHoursWorks()}}</div>
-        <div class="stat-desc text-white text-base poppins-light">Horas Trabajadas</div>
-      </div>
-    
+        <div class="grid place-items-center">
+          <span class="text-7xl">{{totalHoursWorks()}}</span>
+          <span class="text-base poppins-light">Horas Trabajadas</span>
+        </div>
     </div>
 </div>

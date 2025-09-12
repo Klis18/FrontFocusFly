@@ -95,6 +95,10 @@ export class LayoutComponent implements OnInit,OnDestroy{
   }
 
   getUser(){
-    this.userService.getUserData().subscribe(res=> this.userData = res);
+    this.userService.getUserData().subscribe(res=> {
+      this.userData = res;
+      console.log('User Data', this.userData);
+    });
+      
   }
 }

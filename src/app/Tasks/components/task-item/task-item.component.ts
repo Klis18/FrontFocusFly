@@ -71,7 +71,7 @@ export class TaskItemComponent implements OnInit{
       }
     )
     modal.afterClosed().subscribe((res)=>{
-      if(res.message == 'endTask'){
+      if(res?.message == 'endTask'){
         const updateData = {
           ...this.taskToUpdate,
           estadoId: 4,
