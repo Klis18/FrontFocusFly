@@ -8,3 +8,15 @@
     </button>
 </div>
 <hr/>
+
+<div class="mt-8 mb-2">
+    <!--filtros-->
+</div>
+<div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 poppins-light">
+    @for(customer of customersResponse.clientes; track customer.nombre){
+        <customer-item [customerItem]="customer"></customer-item>
+    }
+</div>
+<div class="py-4">
+    <shared-paginator [paginaActual]="customersResponse.paginaActual" [totalPaginas]="customersResponse.totalPaginas"></shared-paginator>
+</div>
