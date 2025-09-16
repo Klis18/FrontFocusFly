@@ -41,13 +41,6 @@ export class TaskItemComponent implements OnInit{
   updateStatusTask(){
     let estadoIdUpdate : number;
     estadoIdUpdate = (this.taskItem()?.estado == 'Finalizado') ? ((this.taskItem()?.tiempoReal != '00:00:00')? 2 : 1 ): 4;
-    // if(this.taskItem()?.estado == 'Finalizado' && this.taskItem()?.tiempoReal != '00:00:00'){
-    //   estadoIdUpdate = 2;
-    // } else if(this.taskItem()?.estado == 'Finalizado'){
-    //   estadoIdUpdate = 1;
-    // }else{
-    //   estadoIdUpdate = 4
-    // }
     const updateData = {
       ...this.taskToUpdate,
       tareaId : this.taskItem()!.id,

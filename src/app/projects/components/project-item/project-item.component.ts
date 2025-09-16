@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Project } from '../../interfaces/project.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { ProjectsService } from '../../services/projects.service';
 
 @Component({
   selector: 'project-item',
@@ -14,5 +15,13 @@ import { CommonModule } from '@angular/common';
 })
 export class ProjectItemComponent {
 
+  changeInItem  = output<string>();
   projectItem = input<Project>();
+
+
+  constructor(private projectsService:ProjectsService) {}
+
+  deleteProject(id:number){
+    this.projectsService.deleteProject(id).subscribe();
+  }
 }
