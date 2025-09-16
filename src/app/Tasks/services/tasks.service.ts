@@ -16,12 +16,8 @@ export class TasksService {
 
   constructor() { }
 
-  getTasks(){
-    const listaTareas = this.http.get<Task[]>(`${this.apiUrl}/tareas`);
-    return toSignal(listaTareas, {initialValue:[]})
-  }
 
-  getFilteredTasks(filtros: TaskFilters): Observable<TaskResponse> {
+  getTasks(filtros: TaskFilters): Observable<TaskResponse> {
     let params = new HttpParams();
 
     Object.entries(filtros).forEach(([key, value]) => {
@@ -35,7 +31,7 @@ export class TasksService {
       }
     });
 
-    return this.http.get<TaskResponse>(`${this.apiUrl}/tareas/tareasFiltradas`, { params });
+    return this.http.get<TaskResponse>(`${this.apiUrl}/tareas`, { params });
   }
 
   getTask(id:number):Observable<CreateTask>{

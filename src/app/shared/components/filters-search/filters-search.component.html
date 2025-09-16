@@ -8,7 +8,7 @@
         <div class="w-1/2 md:w-1/4 lg:w-1/6 xl:w-1/6">
             <label for="estado" class="block mb-1 text-sm">Proyecto</label>
             <select id="estado" formControlName="proyecto" class="p-2 border rounded-md w-full">
-                @for(proyecto of projectsList(); track proyecto.id){
+                @for(proyecto of projectsList; track proyecto.id){
                     <option [value]="proyecto.nombreProyecto">{{proyecto.nombreProyecto}}</option>
                 }
                 <option value="" selected>Todos</option>

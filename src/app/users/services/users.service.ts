@@ -14,7 +14,7 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   getUserData():Observable<User>{
-    return this.http.get<User>(`${this.baseUrl}/api/usuarios/obtenerDataUsuario`);
+    return this.http.get<User>(`${this.baseUrl}/usuarios/obtenerDataUsuario`);
   }
 
 }

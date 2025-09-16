@@ -50,12 +50,13 @@ export default class TasksPageComponent implements OnInit{
   }
 
   obtenerTareas() {
-    this.tasksService.getFilteredTasks(this.filters).subscribe({
+    this.tasksService.getTasks(this.filters).subscribe({
       next: (respuesta) => {
         this.taskList     = respuesta.tareas;
         this.totalTareas  = respuesta.total;
         this.paginaActual = respuesta.paginaActual;
         this.totalPaginas = respuesta.totalPaginas;
+        console.log('Datos Tareas', this.taskList, 'totalTareas', this.totalTareas, 'pagina actual', this.paginaActual, 'total paginas', this.totalPaginas);
       },
       error: (error) => {
         console.error('Error al obtener tareas:', error);

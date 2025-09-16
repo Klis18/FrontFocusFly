@@ -2,7 +2,7 @@ import { Component, inject, OnInit, Signal } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TasksService } from '../../services/tasks.service';
-import { Project } from '../../../projects/interfaces/project.interface';
+import { Project, ProjectFilters } from '../../../projects/interfaces/project.interface';
 import { ProjectsService } from '../../../projects/services/projects.service';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -34,7 +34,8 @@ import { CreateTask, Task} from '../../interfaces/task.interface';
 export class NewTaskFormComponent implements OnInit{
 
   public taskForm       !: FormGroup;
-  public projectsList    : Signal<Project[]>;
+  public projectsList    !: Project[];
+  private projectsFilter  !: ProjectFilters;
   public dateToday       : Date = new Date(Date.now());
   public title          !: string;
   public isShowRealTime !: boolean;
@@ -47,7 +48,13 @@ export class NewTaskFormComponent implements OnInit{
               private dialogRef: MatDialogRef<NewTaskFormComponent>,
               private alertService: AlertsService
             ){
-                this.projectsList = this.projectsServices.getProjects();
+              this.projectsServices.getProjects(this.projectsFilter).subscribe(
+              {
+                next: (response) =>{
+                  this.projectsList = response.proyectos;
+                }
+              }
+    );
               }
 
   ngOnInit(): void {

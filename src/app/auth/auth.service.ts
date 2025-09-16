@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(accessCredentials:AccessCredentials):Observable<boolean>{
-    return this.http.post<LoginResponse>(`${this.baseUrl}/api/usuarios/login`,
+    return this.http.post<LoginResponse>(`${this.baseUrl}/usuarios/login`,
     accessCredentials
     ).pipe(
             map((res)=> this.saveToken(res.token)),
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   registerUser(registerUser: RegisterUser):Observable<boolean>{
-    return this.http.post<LoginResponse>(`${this.baseUrl}/api/usuarios/registro`,
+    return this.http.post<LoginResponse>(`${this.baseUrl}/usuarios/registro`,
       registerUser
     ).pipe(
       map((res) => {

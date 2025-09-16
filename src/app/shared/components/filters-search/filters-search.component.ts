@@ -4,7 +4,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Project } from '../../../projects/interfaces/project.interface';
+import { Project, ProjectFilters } from '../../../projects/interfaces/project.interface';
 import { ProjectsService } from '../../../projects/services/projects.service';
 
 @Component({
@@ -25,7 +25,11 @@ export class FiltersSearchComponent {
   sendDataFilters = new EventEmitter<FormGroup>;
 
   filterForm         !: FormGroup;
-  public projectsList : Signal<Project[]>;
+  public projectsList !: Project[];
+  private projectsFilter : ProjectFilters = {
+    fechaInicioProyecto: undefined,
+    fechaFinProyecto: undefined
+  };
 
 
   constructor(private fb : FormBuilder, private projectsServices: ProjectsService,
@@ -38,7 +42,13 @@ export class FiltersSearchComponent {
       plazoEntrega   : ['']
     });
 
-    this.projectsList = this.projectsServices.getProjects();
+    this.projectsServices.getProjects(this.projectsFilter).subscribe(
+      {
+        next: (response) =>{
+          this.projectsList = response.proyectos;
+        }
+      }
+    );
   }
 
   sendFilters(){

@@ -25,7 +25,7 @@
                     <label for="proyecto" class="block mb-1">Proyecto</label>
                     <div class="flex items-center">
                         <mat-select formControlName="proyectoId" name="proyectoId" class="border rounded-md w-full px-2 py-2 bg-white">
-                            @for (proyecto of projectsList(); track proyecto.id) {
+                            @for (proyecto of projectsList; track proyecto.id) {
                                 <mat-option [value]="proyecto.id">{{proyecto.nombreProyecto}}</mat-option>
                             }
                         </mat-select>

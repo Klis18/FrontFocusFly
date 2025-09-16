@@ -6,5 +6,13 @@
         </mat-icon>
         Agregar 
     </button>
+
 </div>
 <hr/>
+<div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 poppins-light">
+    @for(project of projectResponse.proyectos; track project.id){
+        <div>
+            <project-item [projectItem]="project"></project-item>
+        </div>
+    }
+</div>
