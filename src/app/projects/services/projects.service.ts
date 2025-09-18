@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { CreateProject, ProjectFilters, ProjectResponse, UpdateProject } from '../interfaces/project.interface';
+import { CreateProject, Project, ProjectFilters, ProjectResponse, UpdateProject } from '../interfaces/project.interface';
 import { Observable } from 'rxjs';
+import { buildHttpParams } from '../../utils/http-param';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +15,13 @@ export class ProjectsService {
 
   constructor() { }
 
-  getProjects(filtros: ProjectFilters):Observable<ProjectResponse>{
-    let params = new HttpParams();
-
-    Object.entries(filtros).forEach(([key, value]) => {
-      if(value !== undefined && value !== null && value !== ''){
-        if (value instanceof Date){
-          const formattedDate = value.toISOString().split('T')[0];
-          params = params.set(key, formattedDate);
-        }else{
-          params = params.set(key, value.toString());
-        }
-      }
-    });
+  getProjects(filters: ProjectFilters):Observable<ProjectResponse>{
+     let params = buildHttpParams(filters);
     return this.http.get<ProjectResponse>(`${this.apiUrl}/proyectos`,{params});
+  }
+
+  getProjectById(id: number):Observable<CreateProject>{
+    return this.http.get<CreateProject>(`${this.apiUrl}/proyectos/${id}`);
   }
 
   createProject(project: CreateProject):Observable<CreateProject>{

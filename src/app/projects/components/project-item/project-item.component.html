@@ -1,4 +1,4 @@
-<div class="rounded-md shadow-md p-4">
+<div class="rounded-md shadow-md p-4 border">
     <div class="flex items-center">
         <div class="w-3/4">
              <span class="text-xl">{{projectItem()?.nombreProyecto}}</span>
@@ -9,7 +9,7 @@
                 delete
             </mat-icon>            
             <mat-icon class="text-gray-700 cursor-pointer">
-                settings
+                edit
             </mat-icon>
         </div>
     </div>
@@ -20,12 +20,10 @@
         <p><b>Fecha Fin: </b>{{projectItem()?.fechaFinProyecto}}</p>
         <p>
             <b>Estado: </b>
-            <span class="px-2 py-0.5 rounded-xl" [ngClass]="{  'text-neutral': projectItem()?.estado == 'Pendiente',
-                                'text-secondary': projectItem()?.estado == 'En Proceso',
-                                'text-cuaternary': projectItem()?.estado == 'Finalizado',
-                                'bg-gray-300': projectItem()?.estado == 'Pendiente',
-                                'bg-yellow-200': projectItem()?.estado == 'En Proceso',
-                                'bg-lime-300': projectItem()?.estado == 'Finalizado'}"> 
+            <span class="px-2 py-0.5 rounded-xl" [ngClass]="{  'text-lime-600': projectItem()?.estado == 'Activo',
+                                'text-red-600': projectItem()?.estado == 'Vencido',
+                                'bg-lime-100': projectItem()?.estado == 'Activo',
+                                'bg-red-100': projectItem()?.estado == 'Vencido'}"> 
                 {{projectItem()?.estado}}
             </span>
         </p>

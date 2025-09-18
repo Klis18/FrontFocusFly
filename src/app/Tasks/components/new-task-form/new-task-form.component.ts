@@ -35,7 +35,14 @@ export class NewTaskFormComponent implements OnInit{
 
   public taskForm       !: FormGroup;
   public projectsList    !: Project[];
-  private projectsFilter  !: ProjectFilters;
+  private projectsFilter : ProjectFilters ={
+    nombreProyecto: '',
+    estado: '',
+    fechaInicioProyecto: undefined,
+    fechaFinProyecto: undefined,
+    page: 1,
+    pageSize: 5
+  };
   public dateToday       : Date = new Date(Date.now());
   public title          !: string;
   public isShowRealTime !: boolean;
@@ -48,13 +55,6 @@ export class NewTaskFormComponent implements OnInit{
               private dialogRef: MatDialogRef<NewTaskFormComponent>,
               private alertService: AlertsService
             ){
-              this.projectsServices.getProjects(this.projectsFilter).subscribe(
-              {
-                next: (response) =>{
-                  this.projectsList = response.proyectos;
-                }
-              }
-    );
               }
 
   ngOnInit(): void {
@@ -68,6 +68,13 @@ export class NewTaskFormComponent implements OnInit{
       plazoEntrega: [this.dateToday]
     });
     this.title = this.data.title;
+
+                  this.projectsServices.getProjects(this.projectsFilter).subscribe(
+              {
+                next: (response) =>{
+                  this.projectsList = response.proyectos;
+                }
+              });
 
     this.isShowRealTime = (this.title == 'Configuración de Tarea') ? true : false;
 
