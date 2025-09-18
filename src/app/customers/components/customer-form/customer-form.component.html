@@ -1,0 +1,49 @@
+<div mat-dialog-title>
+    <div class="px-4 py-2">
+        <div class="relative">
+            <div class="absolute right-0 text-gray-500">
+                <mat-icon class="cursor-pointer" (click)="closeModal()">
+                    close
+                </mat-icon>
+            </div>
+        </div>
+        <h1 class="text-2xl mt-6">{{titleForm}}</h1>
+        <hr/>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="pb-8">
+        <form [formGroup]="customerForm">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                        <label for="nombre" class="block mb-1">Nombre</label>
+                        <input type="text" matInput formControlName="nombre" placeholder="Ej.: Steffany Beltrán" class="w-full border rounded-md px-2 py-2">
+                </div>
+                 <div class="col-span-1">
+                        <label for="email" class="block mb-1">Email</label>
+                        <input type="text" matInput formControlName="email" placeholder="steff@email.com" class="w-full border rounded-md px-2 py-2">
+                </div>
+                 <div class="col-span-1">
+                        <label for="celular" class="block mb-1">Celular</label>
+                        <input type="text" matInput formControlName="celular" placeholder="0998876545" class="w-full border rounded-md px-2 py-2">
+                </div>
+            </div>
+        </form>
+        <div class="mt-8 mb-10 relative">
+            <div class="absolute right-0 flex items-center">
+                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-gray-500 text-white flex items-center" (click)="closeModal()">
+                    <mat-icon class="mr-1">
+                        cancel
+                    </mat-icon>
+                    Cancelar
+                </button>
+                <button type="submit" class="rounded-lg p-2 bg-slate-900 text-white flex items-center" (click)="onSubmit()">
+                    <mat-icon class="mr-2">
+                        save
+                    </mat-icon>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

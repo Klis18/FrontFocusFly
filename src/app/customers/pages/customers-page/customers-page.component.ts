@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomerItemComponent } from "../../components/customer-item/customer-item.component";
-import { Customer, CustomerFilters, CustomersResponse } from '../../interfaces/customers.interface';
+import { CustomerFilters, CustomersResponse } from '../../interfaces/customers.interface';
 import { CustomersService } from '../../services/customers.service';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
+import { MatDialog } from '@angular/material/dialog';
+import { CustomerFormComponent } from '../../components/customer-form/customer-form.component';
 
 @Component({
   selector: 'app-customers-page',
@@ -29,7 +31,7 @@ export default class CustomersPageComponent implements OnInit{
     clientes: []
   }
 
-  constructor(private customersService: CustomersService) {}
+  constructor(private customersService: CustomersService, private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.obtenerClientes();
@@ -46,6 +48,19 @@ export default class CustomersPageComponent implements OnInit{
         }
       }
     )
+  }
+
+  openAddTaskModal(){
+    const dialogRef = this.dialog.open(CustomerFormComponent,{
+      data:{
+        action: 'add'
+      },
+      width: '50%'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      res => this.obtenerClientes()
+    );
   }
 
 }
