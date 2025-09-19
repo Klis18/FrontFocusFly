@@ -35,7 +35,7 @@ import { formatDateOnly, formatDateUTC } from '../../../utils/format-date';
 export class NewTaskFormComponent implements OnInit{
 
   public taskForm       !: FormGroup;
-  public projectsList    !: Project[];
+  public projectsList   !: Project[];
   private projectsFilter : ProjectFilters ={
     nombreProyecto: '',
     estado: '',
@@ -45,88 +45,74 @@ export class NewTaskFormComponent implements OnInit{
     pageSize: 5
   };
   public dateToday       : Date = new Date(Date.now());
-  public title          !: string;
   public isShowRealTime !: boolean;
   public task           !: Task;
   public data = inject(MAT_DIALOG_DATA);
+  public title            : string = (this.data.action == 'add') ? 'Agregar Tarea' : 'Editar Tarea';
 
   constructor(private fb: FormBuilder, 
               private tasksServices: TasksService, 
               private projectsServices: ProjectsService,
               private dialogRef: MatDialogRef<NewTaskFormComponent>,
               private alertService: AlertsService
-            ){
-              }
+            )
+  {
+    this.taskForm = this.fb.group({
+      descripcion    : [''],
+      proyectoId     : [1],
+      estadoId       : [1],
+      tiempoEstimado : ['00:00:00'],
+      tiempoReal     : ['00:00:00'],
+      programadoPara : [this.dateToday],
+      plazoEntrega   : [this.dateToday]
+    });
+  }
 
   ngOnInit(): void {
-    this.taskForm = this.fb.group({
-      descripcion: [''],
-      proyectoId: [1],
-      estadoId: [1],
-      tiempoEstimado: ['00:00:00'],
-      tiempoReal: ['00:00:00'],
-      programadoPara: [this.dateToday],
-      plazoEntrega: [this.dateToday]
+    this.getProjectsList();
+    this.isShowRealTime = (this.data.action == 'add') ? false : true;
+    (this.data.action != 'add') ? this.getTask() : '';
+  }
+
+  getProjectsList(){
+    this.projectsServices.getProjects(this.projectsFilter).subscribe(
+    {
+      next: (response) =>{
+        this.projectsList = response.proyectos;
+      }
     });
-    this.title = this.data.title;
-
-                  this.projectsServices.getProjects(this.projectsFilter).subscribe(
-              {
-                next: (response) =>{
-                  this.projectsList = response.proyectos;
-                }
-              });
-
-    this.isShowRealTime = (this.title == 'Configuración de Tarea') ? true : false;
-
-    if(this.title == 'Configuración de Tarea'){
-      this.getTask();
-    }
-    
   }
 
-  onSubmit(){
-    const {programadoPara, plazoEntrega} = this.taskForm.value;
-    const newTask = {
-      ...this.taskForm.value,
-      programadoPara: formatDateOnly(programadoPara),
-      plazoEntrega: formatDateOnly(plazoEntrega)
-    }
-
-    if(this.title == 'Configuración de Tarea'){
-      this.updateTask(newTask);
-    }
-    else{
-      this.createTask(newTask)
-    }
+  
+  getTask(){
+    this.tasksServices.getTask(this.data.idTask).subscribe(
+      (res) =>{
+        const {programadoPara, plazoEntrega} = res;
+        const taskData = {
+          ...res,
+          programadoPara: formatDateUTC(programadoPara),
+          plazoEntrega : formatDateUTC(plazoEntrega)
+        }
+        this.taskForm.setValue(taskData);
+      }
+    );
+  }
+  
+  closeModal(){
+    this.dialogRef.close();
   }
 
-  createTask(newTask: CreateTask){
+  addTask(newTask: CreateTask){
     this.tasksServices.createTask(newTask).subscribe(
       {
         next: (res) => {
-          this.alertService.sendOkMessage('Tarea creada exitosamente');
+          this.alertService.sendOkMessage('Tarea creada con éxito');
           this.closeModal();
         }
       }
     );
   }
-
-  getTask(){
-    this.tasksServices.getTask(this.data.idTask).subscribe(
-      (res) =>{
-        const {descripcion, proyectoId, estadoId, tiempoEstimado, tiempoReal, programadoPara, plazoEntrega} = res
-        this.taskForm.get('descripcion')?.setValue(descripcion);
-        this.taskForm.get('proyectoId')?.setValue(proyectoId);
-        this.taskForm.get('estadoId')?.setValue(estadoId);
-        this.taskForm.get('tiempoEstimado')?.setValue(tiempoEstimado);
-        this.taskForm.get('tiempoReal')?.setValue(tiempoReal);
-        this.taskForm.get('programadoPara')?.setValue(formatDateUTC(programadoPara));
-        this.taskForm.get('plazoEntrega')?.setValue(formatDateUTC(plazoEntrega));
-      }
-    );
-  }
-
+  
   updateTask(updatedTask: CreateTask){
     const updatedData = {
       ...updatedTask,
@@ -135,16 +121,23 @@ export class NewTaskFormComponent implements OnInit{
     this.tasksServices.updateTask(updatedData).subscribe(
       {
         next: (res) => {
-          this.alertService.sendOkMessage('Tarea actualizada exitosamente');
+          this.alertService.sendOkMessage('Tarea actualizada con éxito');
           this.closeModal();
         }
       }
     );
   }
-
-  closeModal(){
-    this.dialogRef.close();
+  
+  onSubmit(){
+    const {programadoPara, plazoEntrega} = this.taskForm.value;
+    const newTask = {
+      ...this.taskForm.value,
+      programadoPara : formatDateOnly(programadoPara),
+      plazoEntrega   : formatDateOnly(plazoEntrega)
+    };
+    (this.data.action == 'add') ? this.addTask(newTask) : this.updateTask(newTask);
   }
+  
 
 }
 

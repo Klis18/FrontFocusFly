@@ -80,12 +80,12 @@ export class TaskItemComponent implements OnInit{
     })
   }
 
-  openModalConfiguration(id:number){
+  openTaskEditModal(id:number){
     this.dialog.open(NewTaskFormComponent,
       {
         data:{
           idTask: id,
-          title: 'Configuración de Tarea'
+          action: 'edit'
         },
         width: '90%',
         maxWidth: '700px', 

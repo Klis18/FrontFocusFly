@@ -3,12 +3,12 @@ import { Task, TaskFilters } from '../../interfaces/task.interface';
 import { TasksService } from '../../services/tasks.service';
 import { TaskItemComponent } from "../../components/task-item/task-item.component";
 import { CommonModule } from '@angular/common';
-import { TaskChronometerComponent } from "../../components/task-chronometer/task-chronometer.component";
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewTaskFormComponent } from '../../components/new-task-form/new-task-form.component';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 import { FiltersSearchComponent } from "../../../shared/components/filters-search/filters-search.component";
+import { AlertsService } from '../../../shared/services/alerts.service';
 
 @Component({
   selector: 'app-tasks-page',
@@ -17,7 +17,6 @@ import { FiltersSearchComponent } from "../../../shared/components/filters-searc
     MatIconModule,
     MatDialogModule,
     TaskItemComponent,
-    TaskChronometerComponent,
     PaginatorComponent,
     FiltersSearchComponent
 ],
@@ -43,7 +42,9 @@ export default class TasksPageComponent implements OnInit{
     totalPaginas  : number = 0;
 
 
-  constructor(private tasksService: TasksService, private dialog:MatDialog){}
+  constructor(private tasksService: TasksService,
+              private alertService: AlertsService, 
+              private dialog:MatDialog){}
 
   ngOnInit() {
     this.obtenerTareas();
@@ -56,10 +57,9 @@ export default class TasksPageComponent implements OnInit{
         this.totalTareas  = respuesta.total;
         this.paginaActual = respuesta.paginaActual;
         this.totalPaginas = respuesta.totalPaginas;
-        console.log('Datos Tareas', this.taskList, 'totalTareas', this.totalTareas, 'pagina actual', this.paginaActual, 'total paginas', this.totalPaginas);
       },
       error: (error) => {
-        console.error('Error al obtener tareas:', error);
+        this.alertService.sendErrorMessage(`Error al cargar tareas ${error}`);
       }
     });
   }
@@ -89,7 +89,7 @@ export default class TasksPageComponent implements OnInit{
     const modal = this.dialog.open(NewTaskFormComponent,
       {
         data:{
-          title: 'Nueva Tarea',
+          action: 'add'
         },
         width: '90%',    
         maxWidth: '700px', 

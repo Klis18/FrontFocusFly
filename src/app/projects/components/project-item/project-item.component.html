@@ -5,10 +5,10 @@
          </div>
         <div class="grow"></div>
         <div>
-            <mat-icon class="text-red-700 cursor-pointer mx-2">
+            <mat-icon class="text-red-700 cursor-pointer mx-2" (click)="deleteProject(projectItem()!.id)">
                 delete
             </mat-icon>            
-            <mat-icon class="text-gray-700 cursor-pointer">
+            <mat-icon class="text-gray-700 cursor-pointer" (click)="openUpdateProjectModal(projectItem()!.id)">
                 edit
             </mat-icon>
         </div>

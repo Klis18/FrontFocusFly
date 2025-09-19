@@ -3,6 +3,9 @@ import { Project, UpdateProject, CreateProject } from '../../interfaces/project.
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ProjectsService } from '../../services/projects.service';
+import { AlertsService } from '../../../shared/services/alerts.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectFormComponent } from '../project-form/project-form.component';
 
 @Component({
   selector: 'project-item',
@@ -21,14 +24,27 @@ export class ProjectItemComponent implements OnInit{
   dateToday     : Date = new Date(Date.now());
 
 
-  constructor(private projectsService:ProjectsService) {}
+  constructor(private projectsService : ProjectsService, 
+              private alertServices   : AlertsService,
+              private dialog          : MatDialog) {}
 
   ngOnInit(): void {
-    (this.projectItem()?.fechaFinProyecto == this.dateToday) ? this.updateProjectStatus() : '';
+
+  }
+
+  sendMessageReloadPage(){
+    this.changeInItem.emit('reloadPage');
   }
 
   deleteProject(id:number){
-    this.projectsService.deleteProject(id).subscribe();
+    this.projectsService.deleteProject(id).subscribe(
+      {
+        next: (response) =>{
+          this.sendMessageReloadPage();
+          this.alertServices.sendOkMessage('Proyecto eliminado con éxito');
+        }
+      }
+    );
   }
 
   getProjectById(){
@@ -42,12 +58,15 @@ export class ProjectItemComponent implements OnInit{
     );
   }
 
-  updateProjectStatus(){
-    const updateProject: UpdateProject = {
-      ...this.projectData,
-      estadoId : 6,
-      proyectoId: this.projectItem()!.id
-    } 
-    this.projectsService.updateProject(updateProject).subscribe();
+  openUpdateProjectModal(id : number){
+    const dialogRef = this.dialog.open(ProjectFormComponent,{
+      data:{
+        action: 'edit',
+        projectId : id
+      },
+      width:'50%'
+    });
+
+    dialogRef.afterClosed().subscribe((res)=> this.sendMessageReloadPage());
   }
 }

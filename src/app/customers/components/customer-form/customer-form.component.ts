@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomersService } from '../../services/customers.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,8 @@ export class CustomerFormComponent {
   constructor(private customerService : CustomersService,
               private alertService    : AlertsService, 
               private fb              : FormBuilder,
-              private dialogRef       : MatDialogRef<CustomerFormComponent>){
+              private dialogRef       : MatDialogRef<CustomerFormComponent>)
+  {
     this.customerForm = this.fb.group({
       nombre : [''],
       email  : [''],
@@ -36,22 +37,22 @@ export class CustomerFormComponent {
     this.dialogRef.close();
   }
 
-  onSubmit(){
-    (this.data.action == 'add')? this.addCustomer() : this.updateCustomer();
-  }
-
+  
   addCustomer(){
     if(!this.customerForm.valid) return;
     this.customerService.createCustomer(this.customerForm.value).subscribe(
       {
         next: (response) => {
-          this.alertService.sendOkMessage('Cliente agregado exitosamente');
+          this.alertService.sendOkMessage('Cliente agregado con éxito');
           this.closeModal();
         }
       }
     );
   }
-
+  
   updateCustomer(){};
-
+  
+  onSubmit(){
+    (this.data.action == 'add')? this.addCustomer() : this.updateCustomer();
+  }
 }

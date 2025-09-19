@@ -8,6 +8,7 @@ import { Project, ProjectFilters } from '../../../projects/interfaces/project.in
 import { ProjectsService } from '../../../projects/services/projects.service';
 import { Status } from '../../interfaces/status.interface';
 import { StatusService } from '../../services/status.service';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'shared-filters-search',
@@ -59,7 +60,6 @@ export class FiltersSearchComponent {
       {
         next: (response) => {
           this.statusList = response
-          console.log('Listado de estados', this.statusList);
         }
       }
     )
