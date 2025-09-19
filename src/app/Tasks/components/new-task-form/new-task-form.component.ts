@@ -14,6 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
 import { CreateTask, Task} from '../../interfaces/task.interface';
+import { formatDateOnly, formatDateUTC } from '../../../utils/format-date';
 
 
 @Component({
@@ -88,8 +89,8 @@ export class NewTaskFormComponent implements OnInit{
     const {programadoPara, plazoEntrega} = this.taskForm.value;
     const newTask = {
       ...this.taskForm.value,
-      programadoPara: this.formatDateOnly(programadoPara),
-      plazoEntrega: this.formatDateOnly(plazoEntrega)
+      programadoPara: formatDateOnly(programadoPara),
+      plazoEntrega: formatDateOnly(plazoEntrega)
     }
 
     if(this.title == 'Configuración de Tarea'){
@@ -120,8 +121,8 @@ export class NewTaskFormComponent implements OnInit{
         this.taskForm.get('estadoId')?.setValue(estadoId);
         this.taskForm.get('tiempoEstimado')?.setValue(tiempoEstimado);
         this.taskForm.get('tiempoReal')?.setValue(tiempoReal);
-        this.taskForm.get('programadoPara')?.setValue(this.formatDateUTC(programadoPara));
-        this.taskForm.get('plazoEntrega')?.setValue(this.formatDateUTC(plazoEntrega));
+        this.taskForm.get('programadoPara')?.setValue(formatDateUTC(programadoPara));
+        this.taskForm.get('plazoEntrega')?.setValue(formatDateUTC(plazoEntrega));
       }
     );
   }
@@ -143,19 +144,6 @@ export class NewTaskFormComponent implements OnInit{
 
   closeModal(){
     this.dialogRef.close();
-  }
-
-  formatDateOnly(date: Date): string {
-    const dtime = new Date(date);
-    dtime.setMinutes(dtime.getMinutes()-dtime.getTimezoneOffset());
-    return dtime.toISOString().split('T')[0];
-  }
-
-  formatDateUTC(date: Date): Date{
-    const fechaStr = date.toString();
-    const [year, month, day] = fechaStr.split("-").map(Number);
-    const fechaUTC = new Date(Date.UTC(year, month - 1 , day + 1));
-    return fechaUTC;
   }
 
 }

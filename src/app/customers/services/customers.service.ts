@@ -15,7 +15,7 @@ export class CustomersService {
 
   constructor() { }
 
-  getCustomers(filters: CustomerFilters){
+  getCustomers(filters: CustomerFilters):Observable<CustomersResponse>{
     let params = buildHttpParams(filters);
     return this.http.get<CustomersResponse>(`${this.baseUrl}/clientes`,{params});
   }

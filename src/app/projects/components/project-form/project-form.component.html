@@ -1,1 +1,88 @@
-<p>project-form works!</p>
+<div mat-dialog-title>
+    <div class="px-4 py-2">
+        <div class="relative">
+            <div class="absolute right-0 text-gray-500">
+                <mat-icon class="cursor-pointer" (click)="closeModal()">
+                    close
+                </mat-icon>
+            </div>
+        </div>
+        <h1 class="text-2xl mt-4">{{titleForm}}</h1>
+        <hr/>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="pb-8">
+
+        <form [formGroup]="projectForm">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                        <label for="nombreProyecto" class="block mb-1">Nombre Proyecto</label>
+                        <input type="text" matInput formControlName="nombreProyecto" placeholder="Escribe aquí el nombre del proyecto..." class="w-full border rounded-md px-2 py-2">
+                </div>
+
+                <div class="col-span-2">
+                    <label for="clienteId" class="block mb-1">Cliente</label>
+                    <div class="flex items-center">
+                        <mat-select formControlName="clienteId" class="border rounded-md w-full px-2 py-2 bg-white">
+                            @for (customer of customerList; track customer.id) {
+                                <mat-option [value]="customer.id">{{customer.nombre}}</mat-option>
+                            }
+                                <mat-option [value]="0" disabled>Selecciona cliente</mat-option>
+                        </mat-select>
+                        <button class="ml-2 bg-black px-2 py-1 rounded-md text-white">
+                            <mat-icon>
+                                add
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-span-1">
+                    <label for="fechaInicioProyecto" class="block mb-1">Fecha inicio</label>
+                    <div class="relative">
+                        <input matInput [matDatepicker]="picker" formControlName="fechaInicioProyecto" class="border rounded-md p-2 w-full">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-0.5 pointer-events-none">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            <mat-icon matDatepickerToggleIcon class="hover:text-white">calendar_month</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                    </div>
+                    <span class="text-xs">mes/dia/año</span>                    
+                </div>
+
+                <div class="col-span-1">
+                    <label for="fechaFinProyecto" class="block mb-1">Fecha fin</label>
+                    <div class="relative">
+                        <input matInput [matDatepicker]="pickerMax" formControlName="fechaFinProyecto" class="border rounded-md p-2 w-full">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-0.5 pointer-events-none">
+                            <mat-datepicker-toggle matIconSuffix [for]="pickerMax">
+                            <mat-icon matDatepickerToggleIcon class="hover:text-white">calendar_month</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #pickerMax></mat-datepicker>
+                        </div>
+                    </div>
+                    <span class="text-xs">mes/dia/año</span>                    
+                </div>
+
+            </div>
+        </form>
+        <div class="mt-8 mb-10 relative">
+            <div class="absolute right-0 flex items-center">
+                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-gray-500 text-white flex items-center" (click)="closeModal()">
+                    <mat-icon class="mr-1">
+                        cancel
+                    </mat-icon>
+                    Cancelar
+                </button>
+                <button type="submit" class="rounded-lg p-2 bg-slate-900 text-white flex items-center" (click)="onSubmit()">
+                    <mat-icon class="mr-2">
+                        save
+                    </mat-icon>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

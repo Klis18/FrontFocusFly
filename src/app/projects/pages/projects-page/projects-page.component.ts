@@ -5,6 +5,8 @@ import { ProjectsService } from '../../services/projects.service';
 import { ProjectFilters, ProjectResponse } from '../../interfaces/project.interface';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 import { FilterProjectsComponent } from "../../components/filter-projects/filter-projects.component";
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectFormComponent } from '../../components/project-form/project-form.component';
 
 @Component({
   selector: 'app-projects-page',
@@ -27,6 +29,7 @@ export default class ProjectsPageComponent implements OnInit{
     page: 1,
     pageSize: 5
   };
+
   projectResponse : ProjectResponse = {
     total: 0,
     paginaActual: 0,
@@ -34,7 +37,7 @@ export default class ProjectsPageComponent implements OnInit{
     proyectos: []
   };
  
-  constructor(private projectsService: ProjectsService) {}
+  constructor(private projectsService: ProjectsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.obtenerProyectos();
@@ -69,6 +72,19 @@ export default class ProjectsPageComponent implements OnInit{
     if(reload){
       this.obtenerProyectos();
     }
+  }
+
+  openNewProjectModal(){
+    const dialogRef = this.dialog.open(ProjectFormComponent,{
+      data:{
+        action:'add'
+      },
+      width: '50%'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (res) => this.obtenerProyectos()
+    );
   }
 
 }

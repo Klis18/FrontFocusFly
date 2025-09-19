@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { CreateProject, Project, ProjectFilters, ProjectResponse, UpdateProject } from '../interfaces/project.interface';
+import { CreateProject, ProjectFilters, ProjectResponse, UpdateProject } from '../interfaces/project.interface';
 import { Observable } from 'rxjs';
 import { buildHttpParams } from '../../utils/http-param';
 
