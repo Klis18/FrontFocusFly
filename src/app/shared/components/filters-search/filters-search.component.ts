@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Project, ProjectFilters } from '../../../projects/interfaces/project.interface';
 import { ProjectsService } from '../../../projects/services/projects.service';
+import { Status } from '../../interfaces/status.interface';
+import { StatusService } from '../../services/status.service';
 
 @Component({
   selector: 'shared-filters-search',
@@ -24,15 +26,18 @@ export class FiltersSearchComponent {
   @Output()
   sendDataFilters = new EventEmitter<FormGroup>;
 
-  filterForm         !: FormGroup;
-  public projectsList !: Project[];
+  filterForm            !: FormGroup;
+  public statusList     !: Status[]; 
+  public projectsList   !: Project[];
   private projectsFilter : ProjectFilters = {
     fechaInicioProyecto: undefined,
     fechaFinProyecto: undefined
   };
 
 
-  constructor(private fb : FormBuilder, private projectsServices: ProjectsService,
+  constructor(private fb : FormBuilder, 
+              private projectsServices: ProjectsService,
+              private statusServices  : StatusService
   ){
     this.filterForm = this.fb.group({
       descripcion    : [''],
@@ -49,6 +54,15 @@ export class FiltersSearchComponent {
         }
       }
     );
+
+    this.statusServices.getStatusBySection('tareas').subscribe(
+      {
+        next: (response) => {
+          this.statusList = response
+          console.log('Listado de estados', this.statusList);
+        }
+      }
+    )
   }
 
   sendFilters(){

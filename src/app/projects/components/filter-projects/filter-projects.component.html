@@ -8,9 +8,9 @@
         <div class="w-32 md:w-1/5 lg:w-1/6 xl:w-1/6">
             <label for="estado" class="block mb-1 text-sm">Estado</label>
             <select id="estado" formControlName="estado" class="p-2 border rounded-md w-full">
-                <option value="Pendiente">Pendiente</option>
-                <option value="En Proceso">En Proceso</option>
-                <option value="Finalizado">Finalizado</option>
+                @for(status of statusList; track status.id){
+                    <option [value]="status.descripcion">{{status.descripcion}}</option>
+                }
                 <option value="" selected>Todos</option>
             </select>
         </div>

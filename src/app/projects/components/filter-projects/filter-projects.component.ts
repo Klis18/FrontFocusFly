@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { Status } from '../../../shared/interfaces/status.interface';
+import { StatusService } from '../../../shared/services/status.service';
 
 @Component({
   selector: 'filter-projects',
@@ -19,10 +21,12 @@ export class FilterProjectsComponent {
 
   sendProjectFilters = output<FormGroup>();
   filterProjectForm !: FormGroup;
+  statusList!: Status[];
 
 
 
-  constructor(private fb : FormBuilder
+  constructor(private fb : FormBuilder,
+              private statusServices: StatusService
   ){
     this.filterProjectForm = this.fb.group({
       nombreProyecto      : [''],
@@ -30,6 +34,12 @@ export class FilterProjectsComponent {
       fechaInicioProyecto : [''],
       fechaFinProyecto    : ['']
     });
+
+    this.statusServices.getStatusBySection('proyectos').subscribe({
+      next: (response) => {
+        this.statusList = response;
+      }
+    })
   }
 
 
