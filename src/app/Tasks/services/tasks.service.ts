@@ -43,7 +43,6 @@ export class TasksService {
   }
 
   createTask(task: CreateTask):Observable<CreateTask>{
-    console.log('Datos recibidos', task)
     return this.http.post<CreateTask>(`${this.apiUrl}/tareas`,task);
   }
 

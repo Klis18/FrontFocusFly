@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomersService } from '../../services/customers.service';
@@ -15,7 +15,7 @@ import { AlertsService } from '../../../shared/services/alerts.service';
   templateUrl: './customer-form.component.html',
   styles: ``
 })
-export class CustomerFormComponent {
+export class CustomerFormComponent implements OnInit{
 
   private data = inject(MAT_DIALOG_DATA);
   public titleForm    : string = (this.data.action == 'add')? 'Agregar Cliente' : 'Editar Cliente';
@@ -32,9 +32,18 @@ export class CustomerFormComponent {
       celular: ['']
     });
   }
+  ngOnInit(): void {
+    this.getCustomer();
+  }
 
   closeModal(){
     this.dialogRef.close();
+  }
+
+  getCustomer(){
+    const {nombre, email, celular} = this.data.customer;
+    const customerData = {nombre, email, celular};
+    this.customerForm.setValue(customerData);
   }
 
   
@@ -50,7 +59,18 @@ export class CustomerFormComponent {
     );
   }
   
-  updateCustomer(){};
+  updateCustomer(){
+    const customerUpdate ={
+      ...this.customerForm.value,
+      clienteId: this.data.customer.id
+    }
+    this.customerService.updateCustomer(customerUpdate).subscribe({
+      next: (res) => {
+        this.alertService.sendOkMessage('Cliente actualizado con éxito');
+        this.closeModal();
+      }
+    });
+  };
   
   onSubmit(){
     (this.data.action == 'add')? this.addCustomer() : this.updateCustomer();

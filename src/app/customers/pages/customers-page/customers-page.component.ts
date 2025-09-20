@@ -6,13 +6,15 @@ import { CustomersService } from '../../services/customers.service';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerFormComponent } from '../../components/customer-form/customer-form.component';
+import { CustomerFilterSearchComponent } from "../../components/customer-filter-search/customer-filter-search.component";
 
 @Component({
   selector: 'app-customers-page',
   imports: [
     MatIconModule,
     CustomerItemComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    CustomerFilterSearchComponent
 ],
   templateUrl: './customers-page.component.html',
   styleUrl: './customers-page.component.css'
@@ -20,7 +22,7 @@ import { CustomerFormComponent } from '../../components/customer-form/customer-f
 export default class CustomersPageComponent implements OnInit{
 
   customerFilter: CustomerFilters = {
-    nombre: '',
+    nombreCliente: '',
     page: 1,
     pageSize: 5
   }
@@ -49,6 +51,19 @@ export default class CustomersPageComponent implements OnInit{
       }
     )
   }
+
+  filteredCustomers(filters: any){
+    const {nombreCliente} = filters
+    this.customerFilter.nombreCliente = nombreCliente;
+    this.obtenerClientes();
+  }
+
+  reloadPage(reload : string){
+    if(reload){
+      this.obtenerClientes();
+    }
+  }
+
 
   openAddTaskModal(){
     const dialogRef = this.dialog.open(CustomerFormComponent,{

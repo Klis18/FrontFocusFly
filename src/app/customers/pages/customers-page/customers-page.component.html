@@ -10,11 +10,11 @@
 <hr/>
 
 <div class="mt-8 mb-2">
-    <!--filtros-->
+    <customer-filter-search (sendCustomerFilters)="filteredCustomers($event)"></customer-filter-search>
 </div>
 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 poppins-light">
     @for(customer of customersResponse.clientes; track customer.nombre){
-        <customer-item [customerItem]="customer"></customer-item>
+        <customer-item [customerItem]="customer" (changeInItem)="reloadPage($event)"></customer-item>
     }
 </div>
 <div class="py-4">

@@ -8,13 +8,13 @@
         <p>{{customerItem()?.celular}}</p>
     </div>
     <div class="mt-2 flex flex-wrap gap-2 items-center justify-center">
-        <button class="bg-red-700 flex items-center rounded-md px-2 py-1 text-white">
+        <button class="bg-red-700 flex items-center rounded-md px-2 py-1 text-white" (click)="deleteCustomer(customerItem()!.id)">
             <mat-icon class="mr-1">
                 delete
             </mat-icon>
             Eliminar
         </button>
-        <button class="bg-gray-700 flex items-center rounded-md px-2 py-1 text-white ml-2">
+        <button class="bg-gray-700 flex items-center rounded-md px-2 py-1 text-white ml-2" (click)="openEditCustomerModal()">
             <mat-icon class="mr-1">
                 edit
             </mat-icon>

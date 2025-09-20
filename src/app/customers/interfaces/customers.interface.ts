@@ -5,12 +5,8 @@ export interface Customer{
     celular : string;
 }
 
-// export interface UpdateCustomer extends Customer{
-//     id : number;
-// }
-
 export interface CustomerFilters{
-    nombre   : string;
+    nombreCliente   : string;
     page     : number;
     pageSize : number;
 }

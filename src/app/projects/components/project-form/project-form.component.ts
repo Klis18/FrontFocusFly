@@ -35,7 +35,7 @@ export class ProjectFormComponent {
   public dateToday       : Date = new Date(Date.now());
   public customerList   !: Customer[];
   public customerFilter  : CustomerFilters = {
-    nombre: '',
+    nombreCliente: '',
     page: 1,
     pageSize: 5
   };

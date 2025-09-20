@@ -13,8 +13,6 @@ export class CustomersService {
   http = inject(HttpClient);
   baseUrl = environment.apiUrl;
 
-  constructor() { }
-
   getCustomers(filters: CustomerFilters):Observable<CustomersResponse>{
     let params = buildHttpParams(filters);
     return this.http.get<CustomersResponse>(`${this.baseUrl}/clientes`,{params});
@@ -22,5 +20,13 @@ export class CustomersService {
 
   createCustomer(customer:Customer):Observable<Customer>{
     return this.http.post<Customer>(`${this.baseUrl}/clientes`, customer);
+  }
+
+  updateCustomer(customer:Customer):Observable<Customer>{
+    return this.http.put<Customer>(`${this.baseUrl}/clientes`, customer);
+  }
+
+  deleteCustomer(id: number){
+    return this.http.delete(`${this.baseUrl}/clientes/${id}`);
   }
 }

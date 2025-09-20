@@ -38,7 +38,6 @@ export class AuthService {
   }
 
   handleError(error:HttpErrorResponse){
-    console.log('Error', error);
     this.alertService.sendErrorMessage(error.error.title);
     return of(false);
   }
