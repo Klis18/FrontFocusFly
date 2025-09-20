@@ -1,0 +1,75 @@
+<div mat-dialog-title>
+    <div class="px-4 py-2">
+        <div class="relative">
+            <div class="absolute right-0 text-gray-500">
+                <mat-icon class="cursor-pointer" (click)="closeModal()">
+                    close
+                </mat-icon>
+            </div>
+        </div>
+        <h1 class="text-2xl mt-4">{{title}}</h1>
+        <hr/>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="pb-8">
+
+        <form [formGroup]="eventForm">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="col-span-3">
+                        <label for="titulo" class="block mb-1">Titulo</label>
+                        <input type="text" matInput formControlName="titulo" placeholder="Escribe aquí el título del evento..." class="w-full border rounded-md px-2 py-2">
+                </div>
+
+                <div class="col-span-3">
+                        <label for="descripcion" class="block mb-1">Descripcion</label>
+                        <input type="text" matInput formControlName="descripcion" placeholder="Escribe aquí una descripción..." class="w-full border rounded-md px-2 py-2">
+                </div>
+
+                <div class="col-span-3 md:col-span-3 lg:col-span-2 xl:col-span-2">
+                    <label for="fecha" class="block mb-1">Fecha</label>
+                    <div class="relative">
+                        <input matInput [matDatepicker]="pickerMax" formControlName="fecha" class="border rounded-md p-2 w-full">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-0.5 pointer-events-none">
+                            <mat-datepicker-toggle matIconSuffix [for]="pickerMax">
+                            <mat-icon matDatepickerToggleIcon class="hover:text-white">calendar_month</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #pickerMax></mat-datepicker>
+                        </div>
+                    </div>
+                    <span class="text-xs">mes/dia/año</span>                    
+                </div>
+
+                <div class="col-span-3 md:col-span-3 lg:col-span-1 xl:col-span-1">
+                    <label for="hora" class="block mb-1">Hora:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <mat-icon>
+                                clock
+                            </mat-icon>
+                        </div>
+                        <input type="time" id="time" formControlName="hora" class="bg-white border leading-none border-gray-300 text-gray-900 rounded-md focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2" min="00:00" max="24:00" value="00:00" required />
+                    </div>
+                    <span class="text-xs">horas : minutos</span>
+                </div>
+
+            </div>
+        </form>
+        <div class="mt-8 mb-10 relative">
+            <div class="absolute right-0 flex items-center">
+                <button type="reset" class="rounded-lg mr-2 p-2 bg-gray-400 hover:bg-gray-500 text-white flex items-center" (click)="closeModal()">
+                    <mat-icon class="mr-1">
+                        cancel
+                    </mat-icon>
+                    Cancelar
+                </button>
+                <button type="submit" class="rounded-lg p-2 bg-slate-900 text-white flex items-center" (click)="onSubmit()">
+                    <mat-icon class="mr-2">
+                        save
+                    </mat-icon>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

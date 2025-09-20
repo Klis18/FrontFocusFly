@@ -1,6 +1,6 @@
 <div class="flex items-center mb-2">
     <h1 class="text-3xl">Eventos</h1>
-    <button class="ml-2 rounded-lg px-2 py-2 flex items-center justify-center bg-primary text-white shadow-xl">
+    <button class="ml-2 rounded-lg px-2 py-2 flex items-center justify-center bg-primary text-white shadow-xl" (click)="openAddEventModal()">
         <mat-icon>
             add
         </mat-icon>
@@ -8,3 +8,16 @@
     </button>
 </div>
 <hr/>
+
+<div class="mt-8 mb-2">
+    <!--filters-->
+    <event-filters-search (sendDataFilters)="filteredEvents($event)"></event-filters-search>
+</div>
+<div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 poppins-light">
+    @for(event of eventsResponse.eventos; track event.id){
+        <event-item [eventItem]="event" (changeInItem)="reloadPage($event)"></event-item>
+    }
+</div>
+<div class="py-4">
+    <shared-paginator [paginaActual]="eventsResponse.paginaActual" [totalPaginas]="eventsResponse.totalPaginas"></shared-paginator>
+</div>
