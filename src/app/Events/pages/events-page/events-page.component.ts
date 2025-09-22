@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 import { EventsService } from '../../services/events.service';
-import { Event, EventFilters, EventResponse } from '../../interfaces/event.interface';
+import { EventFilters, EventResponse } from '../../interfaces/event.interface';
 import { EventItemComponent } from "../../components/event-item/event-item.component";
 import { EventFiltersSearchComponent } from "../../components/event-filters-search/event-filters-search.component";
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormComponent } from '../../components/event-form/event-form.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-events-page',
@@ -21,12 +22,7 @@ import { EventFormComponent } from '../../components/event-form/event-form.compo
 })
 export default class EventsPageComponent implements OnInit{
 
-  public eventsResponse : EventResponse = {
-    total: 0,
-    paginaActual: 0,
-    totalPaginas: 0,
-    eventos: []
-  };
+  public eventsResponse !: EventResponse;
   public filterEvents : EventFilters = {
     titulo: '',
     fecha: undefined,
@@ -41,14 +37,11 @@ export default class EventsPageComponent implements OnInit{
   }
 
   obtenerEventos(){
-    this.eventsService.getEvents(this.filterEvents).subscribe({
-      next: (response) =>{
-        this.eventsResponse.total = response.total;
-        this.eventsResponse.paginaActual = response.paginaActual;
-        this.eventsResponse.totalPaginas = response.totalPaginas;
-        this.eventsResponse.eventos = response.eventos;
-      }
-    })
+    this.eventsService.getEvents(this.filterEvents).pipe(
+      tap((response) => {
+        this.eventsResponse = response
+      })
+    ).subscribe();
   }
 
   filteredEvents(filters:any){
@@ -71,12 +64,11 @@ export default class EventsPageComponent implements OnInit{
       },
       width: '50%'
     });
-
-    dialogRef.afterClosed().subscribe({
-      next: (response) => {
+    dialogRef.afterClosed().pipe(
+      tap(() => {
         this.obtenerEventos();
-      }
-    })
+      })
+    )
   }
 
 }
