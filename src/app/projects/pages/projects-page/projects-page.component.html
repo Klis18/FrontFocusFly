@@ -11,13 +11,20 @@
 <div class="mt-8 mb-2">
     <filter-projects (sendProjectFilters)="applyProjectsFilters($event)"></filter-projects>
 </div>
-<div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 poppins-light">
-    @for(project of projectResponse.proyectos; track project.id){
-        <div>
-            <project-item [projectItem]="project" (changeInItem)="reloadPage($event)"></project-item>
-        </div>
-    }
-</div>
-<div class="py-4">
-    <shared-paginator [paginaActual]="projectResponse.paginaActual" [totalPaginas]="projectResponse.totalPaginas" (changePage)="changePage($event)"></shared-paginator>
-</div>
+
+@if(projectResponse.proyectos.length > 0){
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 poppins-light">
+        @for(project of projectResponse.proyectos; track project.id){
+            <div>
+                <project-item [projectItem]="project" (changeInItem)="reloadPage($event)"></project-item>
+            </div>
+        }
+    </div>
+    <div class="py-4">
+        <shared-paginator [paginaActual]="projectResponse.paginaActual" [totalPaginas]="projectResponse.totalPaginas" (changePage)="changePage($event)"></shared-paginator>
+    </div>
+}@else{
+     <div class="py-8 my-4 rounded-lg text-center bg-gray-200 poppins-light text-lg">
+        No hay Proyectos
+    </div>
+}

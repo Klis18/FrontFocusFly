@@ -33,7 +33,9 @@ export class CustomerFormComponent implements OnInit{
     });
   }
   ngOnInit(): void {
-    this.getCustomer();
+    if(this.data.action != 'add'){
+      this.getCustomer();
+    }
   }
 
   closeModal(){

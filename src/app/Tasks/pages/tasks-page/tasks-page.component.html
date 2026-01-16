@@ -12,11 +12,17 @@
 <div class="mt-8 mb-2">
     <shared-filters-search (sendDataFilters)="applyFilters($event)"></shared-filters-search>
 </div>
-<div class="mt-4">
-    @for(task of taskList; track task.id){
-        <tasks-task-item [taskItem]="task" (changeInItem)="reloadPage($event)"></tasks-task-item>
-    }
-</div>
-<div class="py-4">
-    <shared-paginator [paginaActual]="paginaActual" [totalPaginas]="totalPaginas" (changePage)="changePage($event)"></shared-paginator>
-</div>
+@if(taskList.length > 0){
+    <div class="mt-4">
+        @for(task of taskList; track task.id){
+            <tasks-task-item [taskItem]="task" (changeInItem)="reloadPage($event)"></tasks-task-item>
+        }
+    </div>
+    <div class="py-4">
+        <shared-paginator [paginaActual]="paginaActual" [totalPaginas]="totalPaginas" (changePage)="changePage($event)"></shared-paginator>
+    </div>
+}@else{
+    <div class="py-8 my-4 rounded-lg text-center bg-gray-200 poppins-light text-lg">
+        No hay Tareas
+    </div>
+} 

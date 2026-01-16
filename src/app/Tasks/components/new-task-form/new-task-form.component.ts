@@ -11,10 +11,11 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { AlertsService } from '../../../shared/services/alerts.service';
 import { CreateTask, Task} from '../../interfaces/task.interface';
 import { formatDateOnly, formatDateUTC } from '../../../utils/format-date';
+import { ProjectFormComponent } from '../../../projects/components/project-form/project-form.component';
 
 
 @Component({
@@ -48,13 +49,14 @@ export class NewTaskFormComponent implements OnInit{
   public isShowRealTime !: boolean;
   public task           !: Task;
   public data = inject(MAT_DIALOG_DATA);
-  public title            : string = (this.data.action == 'add') ? 'Agregar Tarea' : 'Editar Tarea';
+  public title           : string = (this.data.action == 'add') ? 'Agregar Tarea' : 'Editar Tarea';
 
-  constructor(private fb: FormBuilder, 
-              private tasksServices: TasksService, 
+  constructor(private fb              : FormBuilder, 
+              private tasksServices   : TasksService, 
               private projectsServices: ProjectsService,
-              private dialogRef: MatDialogRef<NewTaskFormComponent>,
-              private alertService: AlertsService
+              private dialog          : MatDialog,
+              private dialogRef       : MatDialogRef<NewTaskFormComponent>,
+              private alertService    : AlertsService
             )
   {
     this.taskForm = this.fb.group({
@@ -138,6 +140,15 @@ export class NewTaskFormComponent implements OnInit{
     (this.data.action == 'add') ? this.addTask(newTask) : this.updateTask(newTask);
   }
   
+  openProjectModal(){
+    const projectDialogRef = this.dialog.open(ProjectFormComponent, {
+      data:{
+        action: 'add'
+      }
+    });
+
+    projectDialogRef.afterClosed().subscribe(() => this.getProjectsList());
+  }
 
 }
 

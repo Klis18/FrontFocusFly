@@ -1,5 +1,4 @@
 import {MediaMatcher} from '@angular/cdk/layout';
-
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -7,9 +6,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
 import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../interfaces/menu.interface';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { UsersService } from '../../../users/services/users.service';
 import { User } from '../../../users/interfaces/user.interface';
@@ -35,8 +35,6 @@ import { User } from '../../../users/interfaces/user.interface';
       color: white !important;
     }
 
-    
-
     .example-container {
       display: flex;
       flex-direction: column;
@@ -53,7 +51,7 @@ import { User } from '../../../users/interfaces/user.interface';
     }
 
     .example-sidenav-container {
-      flex: 1;
+      flex: 2;
     }
 
     .example-is-mobile .example-sidenav-container {

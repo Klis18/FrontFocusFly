@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { ProjectsService } from '../../services/projects.service';
 import { AlertsService } from '../../../shared/services/alerts.service';
 import { formatDateOnly, formatDateUTC } from '../../../utils/format-date';
 import { CreateProject, UpdateProject } from '../../interfaces/project.interface';
+import { CustomerFormComponent } from '../../../customers/components/customer-form/customer-form.component';
 
 @Component({
   selector: 'app-project-form',
@@ -23,7 +24,7 @@ import { CreateProject, UpdateProject } from '../../interfaces/project.interface
     MatFormFieldModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatDialogContent
+    MatDialogContent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './project-form.component.html',
@@ -46,6 +47,7 @@ export class ProjectFormComponent {
               private alertService    : AlertsService,
               private customerServices: CustomersService,
               private projectServices : ProjectsService,
+              private dialog          : MatDialog,
               private dialogRef       : MatDialogRef<ProjectFormComponent>)
   {
     this.projectForm = this.fb.group({
@@ -93,7 +95,8 @@ export class ProjectFormComponent {
     this.projectServices.createProject(project).subscribe(
       {
         next: (response) =>{
-          this.alertService.sendOkMessage('Proyecto agregado con éxito')
+          this.alertService.sendOkMessage('Proyecto agregado con éxito');
+          this.closeModal();
         },
         error: (err) =>{
           this.alertService.sendErrorMessage(err);
@@ -111,6 +114,7 @@ export class ProjectFormComponent {
     this.projectServices.updateProject(updateProjectData).subscribe({
       next: (response) =>{
         this.alertService.sendOkMessage('Proyecto actualizado con éxito');
+        this.closeModal();
       },
       error: (err) =>{
         this.alertService.sendErrorMessage(err);
@@ -127,5 +131,13 @@ export class ProjectFormComponent {
     };
     (this.data.action == 'add') ? this.addProject(projectData) : this.updateProject(projectData);
   };
+
+  openCustomerModal(){
+    const dialogRef = this.dialog.open(CustomerFormComponent,{
+      data:{action:'add'}
+    });
+ 
+    dialogRef.afterClosed().subscribe(() => this.getCustomerList());
+  }
 
 }

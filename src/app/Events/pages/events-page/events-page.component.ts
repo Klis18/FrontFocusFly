@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PaginatorComponent } from "../../../shared/components/paginator/paginator.component";
 import { EventsService } from '../../services/events.service';
@@ -7,7 +7,8 @@ import { EventItemComponent } from "../../components/event-item/event-item.compo
 import { EventFiltersSearchComponent } from "../../components/event-filters-search/event-filters-search.component";
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormComponent } from '../../components/event-form/event-form.component';
-import { tap } from 'rxjs';
+import { catchError, of, Subject, tap, takeUntil, filter, switchMap } from 'rxjs';
+import { AlertsService } from '../../../shared/services/alerts.service';
 
 @Component({
   selector: 'app-events-page',
@@ -20,8 +21,9 @@ import { tap } from 'rxjs';
   templateUrl: './events-page.component.html',
   styleUrl: './events-page.component.css'
 })
-export default class EventsPageComponent implements OnInit{
+export default class EventsPageComponent implements OnInit, OnDestroy{
 
+  private destroy$ = new Subject<void>();
   public eventsResponse !: EventResponse;
   public filterEvents : EventFilters = {
     titulo: '',
@@ -30,30 +32,49 @@ export default class EventsPageComponent implements OnInit{
     pageSize: 5
   }
 
-  constructor(private eventsService: EventsService, private dialog: MatDialog) {}
-
+  constructor(private alertServices: AlertsService,
+              private dialog: MatDialog,
+              private eventsService: EventsService
+              ) {}
+              
   ngOnInit(): void {
-    this.obtenerEventos();
+    this.loadEvents();
   }
 
-  obtenerEventos(){
-    this.eventsService.getEvents(this.filterEvents).pipe(
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+              
+  private loadEvents$(){
+    return this.eventsService.getEvents(this.filterEvents).pipe(
       tap((response) => {
         this.eventsResponse = response
+      }),
+      catchError(err => {
+        this.alertServices.sendErrorMessage('Lo sentimos, hubo un error al cargar los eventos');
+        console.error('get Events Error', err);
+        return of(null);
       })
-    ).subscribe();
+    );
   }
 
-  filteredEvents(filters:any){
+  loadEvents(){
+    this.loadEvents$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+  }
+
+  filteredEvents(filters: any){
     const {titulo, fecha} = filters;
     this.filterEvents.titulo = titulo;
     this.filterEvents.fecha = fecha;
-    this.obtenerEventos();
+    this.loadEvents();
   }
 
   reloadPage(reload: string){
     if(reload){
-      this.obtenerEventos();
+      this.loadEvents();
     }
   }
 
@@ -64,11 +85,13 @@ export default class EventsPageComponent implements OnInit{
       },
       width: '50%'
     });
-    dialogRef.afterClosed().pipe(
-      tap(() => {
-        this.obtenerEventos();
-      })
-    )
+
+    dialogRef.afterClosed()
+              .pipe(
+                switchMap(() => this.loadEvents$()),
+                takeUntil(this.destroy$)
+              )
+              .subscribe();
   }
 
 }
